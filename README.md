@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/respawner/ansible-role-peering-manager.svg?branch=master)](https://travis-ci.org/respawner/ansible-role-peering-manager)
-[![Ansible Galaxy](https://img.shields.io/badge/ansible--galaxy-peering_manager-blue.svg)](https://galaxy.ansible.com/respawner/peering-manager)
+[![Ansible Galaxy](https://img.shields.io/badge/ansible--galaxy-peering--manager-blue.svg)](https://galaxy.ansible.com/respawner/peering_manager)
 
 # Ansible Role: Peering Manager
 
