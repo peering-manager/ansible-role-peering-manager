@@ -4,7 +4,7 @@ services: docker
 
 env:
   global:
-    - ROLE_NAME: peering-manager
+    - ROLE_NAME: peering_manager
   matrix:
     - MOLECULE_DISTRO: debian9
     - MOLECULE_DISTRO: ubuntu1804

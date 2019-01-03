@@ -7,6 +7,8 @@
     virtualenv_command: "{{ peering_manager_python_binary }} -m venv"
   become: true
   become_user: "{{ peering_manager_user }}"
+  register: pip_result
+  until: pip_result is success
 
 - name: configure gunicorn
   template:
