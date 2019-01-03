@@ -1,0 +1,26 @@
+# {{ ansible_managed }}
+
+{% for host in peering_manager_config.ALLOWED_HOSTS %}
+<VirtualHost *:80>
+  ServerName {{ host }}
+
+  Alias /static {{ peering_manager_install_directory }}/static
+
+  # Needed to allow token-based API authentication
+  WSGIPassAuthorization on
+
+  <Directory {{ peering_manager_install_directory }}/static>
+    Options Indexes FollowSymLinks MultiViews
+    AllowOverride None
+    Require all granted
+  </Directory>
+
+  <Location /static>
+    ProxyPass !
+  </Location>
+
+  ProxyPreserveHost On
+  ProxyPass        / http://{{ peering_manager_gunicorn_address }}:{{ peering_manager_gunicorn_port }}/
+  ProxyPassReverse / http://{{ peering_manager_gunicorn_address }}:{{ peering_manager_gunicorn_port }}/
+</VirtualHost>
+{% endfor %}

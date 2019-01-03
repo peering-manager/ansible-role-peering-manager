@@ -1,0 +1,12 @@
+---
+- name: restart peering-manager
+  supervisorctl:
+    name: peering-manager
+    state: restarted
+  when: peering_manager_setup_web_backend
+
+- name: restart apache2
+  service:
+    name: "{{ peering_manager_apache2_service }}"
+    state: restarted
+  when: peering_manager_setup_web_frontend

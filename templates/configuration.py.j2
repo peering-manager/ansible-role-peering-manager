@@ -1,0 +1,15 @@
+DATABASE = {
+    'NAME': '{{ peering_manager_database }}',
+    'USER': '{{ peering_manager_database_user }}',
+    'PASSWORD': '{{ peering_manager_database_password }}',
+    'HOST': '{{ peering_manager_database_host }}',
+    'PORT': '{{ peering_manager_database_port | default('') }}',
+}
+
+{% for setting, value in peering_manager_config.items() %}
+{% if value in [True, False] %}
+{{ setting }} = {{ 'True' if value else 'False' }}
+{% else %}
+{{ setting }} = {{ value | to_nice_json }}
+{% endif %}
+{% endfor %}

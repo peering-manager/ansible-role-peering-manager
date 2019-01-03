@@ -1,0 +1,19 @@
+---
+language: python
+services: docker
+
+env:
+  global:
+    - ROLE_NAME: peering-manager
+  matrix:
+    - MOLECULE_DISTRO: debian9
+    - MOLECULE_DISTRO: ubuntu1804
+
+install:
+  - pip install molecule docker
+
+script:
+  - molecule test
+
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/

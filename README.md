@@ -1,0 +1,88 @@
+[![Build Status](https://travis-ci.org/respawner/ansible-role-peering-manager.svg?branch=master)](https://travis-ci.org/respawner/ansible-role-peering-manager)
+[![Ansible Galaxy](https://img.shields.io/badge/ansible--galaxy-peering--manager-blue.svg)](https://galaxy.ansible.com/respawner/peering-manager)
+
+# Ansible Role: Peering Manager
+
+An Ansible Role that installs on Debian/Ubuntu.
+
+This role install all dependencies required by Peering Manager including the
+PostgreSQL database. So it can be used to setup a Peering Manager appliance
+including everything in the same machine.
+
+Web backend and frontend setups can be disabled if you already have your own
+way to handle them.
+
+## Dependencies
+
+None.
+
+## Roles Variables
+
+Available variables are listed below, along with default values:
+
+Setup for the PostgreSQL database:
+
+    peering_manager_database: peering-manager
+    peering_manager_database_user: peering-manager
+    peering_manager_database_password: peering-manager
+    peering_manager_database_host: localhost # This will force PostgreSQL to be setup
+
+Where to get Peering Manager and which version:
+
+    peering_manager_version: HEAD
+    peering_manager_git_url: https://github.com/respawner/peering-manager.git
+
+Where to install Peering Manager:
+
+    peering_manager_install_directory: /opt/peering-manager
+
+The username, password and email for the super user.
+
+    peering_manager_superuser_username: admin
+    peering_manager_superuser_password: admin
+    peering_manager_superuser_email: admin@example.com
+
+LDAP can be used as authentication mechanism. It must be enabled, and the whole
+LDAP configuration has to be provided in the following variables (see Peering
+Manager
+[documentation](https://peering-manager.readthedocs.io/en/latest/setup/ldap/)):
+
+    peering_manager_setup_ldap_auth: false
+    peering_manager_ldap_config: ""
+
+The configuration for Peering Manager must be given as `key: value` pairs like
+the following, please note that the secret key does not need to be given as it
+will be generated automatically:
+
+    peering_manager_config:
+      ALLOWED_HOSTS:
+        - localhost
+        - 127.0.0.1
+      TIME_ZONE: "Europe/Paris"
+      …
+
+Configuration for the backend web servers:
+
+    peering_manager_setup_web_backend: false
+    peering_manager_gunicorn_address: 127.0.0.1
+    peering_manager_gunicorn_port: 8001
+    peering_manager_gunicorn_workers_number: 4
+
+Whether or not to configure the frontend web server:
+
+    peering_manager_setup_web_frontend: false
+
+## Example Playbook
+
+    - hosts: peering-manager
+      roles:
+        - { role: respawner.peering-manager }
+
+## License
+
+This Ansible Role is released under the terms of the GNU GPLv3. Please read
+the LICENSE file for more information.
+
+## Author Information
+
+This role was created in 2018 by [Guillaume Mazoyer](https://respawner.fr).

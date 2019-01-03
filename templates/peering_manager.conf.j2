@@ -1,0 +1,5 @@
+# {{ ansible_managed }}
+
+[program:peering-manager]
+command = {{ peering_manager_user_home_directory }}/gunicorn_process.sh
+user = {{ peering_manager_user }}

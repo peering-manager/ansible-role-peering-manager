@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# {{ ansible_managed }}
+
+NAME="peering_manager"
+DJANGODIR={{ peering_manager_install_directory }}
+USER={{ peering_manager_user }}
+GROUP={{ peering_manager_group }}
+NUM_WORKERS={{ peering_manager_gunicorn_workers_number }}
+DJANGO_SETTINGS_MODULE=peering_manager.settings
+
+echo "Starting ${NAME} as $(whoami)"
+
+# Activate the virtual environment
+source {{ peering_manager_virtualenv_path }}/bin/activate
+export DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}
+export PYTHONPATH=${DJANGODIR}:${PYTHONPATH}
+
+# Programs meant to be run under supervisor should not daemonize themselves (do not use --daemon)
+exec {{ peering_manager_virtualenv_path }}/bin/gunicorn ${NAME}.wsgi:application \
+  --name ${NAME} \
+  --chdir ${DJANGODIR} \
+  --workers ${NUM_WORKERS} \
+  --user=${USER} --group=${GROUP} \
+  --bind '{{ peering_manager_gunicorn_address }}:{{ peering_manager_gunicorn_port }}'
+  --log-level=debug \
+  --log-file=-

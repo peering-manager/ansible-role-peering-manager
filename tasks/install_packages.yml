@@ -1,0 +1,13 @@
+---
+- name: install required packages
+  package:
+    name: "{{ __peering_manager_required_packages | flatten }}"
+    state: present
+  vars:
+    __peering_manager_required_packages:
+      - "{{ peering_manager_python_packages }}"
+      - "{{ peering_manager_postgresql_packages }}"
+      - "{{ peering_manager_ldap_packages }}"
+      - "{{ peering_manager_other_packages }}"
+      - "{{ peering_manager_web_backend_packages if peering_manager_setup_web_backend else [] }}"
+      - "{{ peering_manager_web_frontend_packages if peering_manager_setup_web_frontend else [] }}"

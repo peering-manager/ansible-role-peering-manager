@@ -1,0 +1,49 @@
+---
+# Git URL and version to use, version must be a Git tag
+peering_manager_version: HEAD
+peering_manager_git_url: https://github.com/respawner/peering-manager.git
+
+# Where to install Netbox
+peering_manager_install_directory: /opt/peering-manager
+peering_manager_virtualenv_path: "{{ peering_manager_install_directory }}/venv"
+
+# Which user/group should own the files
+peering_manager_user: peering-manager
+peering_manager_group: peering-manager
+peering_manager_user_home_directory: /home/peering-manager
+
+# Mostly used for the first setup, superuser password still need to be set
+peering_manager_superuser_username: admin
+peering_manager_superuser_password: admin
+peering_manager_superuser_email: admin@example.com
+
+# LDAP authentication
+peering_manager_setup_ldap_auth: false
+# LDAP configuration, can be used like
+# peering_manager_ldap_config: |
+#   This is my configuration on multiple lines.
+#   That is pretty simple to do, but maybe painful?
+# Example for LDAP configuration can be found at the following URL:
+# https://peering-manager.readthedocs.io/en/latest/setup/ldap/
+peering_manager_ldap_config: ""
+
+# Web backend variables (not configured by default)
+peering_manager_setup_web_backend: false
+peering_manager_gunicorn_address: 127.0.0.1
+peering_manager_gunicorn_port: 8001
+peering_manager_gunicorn_workers_number: 4
+
+# Web frontend variables (not configured by default)
+peering_manager_setup_web_frontend: false
+
+# Database related variables (password must be changed)
+peering_manager_database: peering-manager
+peering_manager_database_user: peering-manager
+peering_manager_database_password: peering-manager
+peering_manager_database_host: localhost
+
+# Configuration
+peering_manager_config:
+  ALLOWED_HOSTS:
+    - localhost
+    - 127.0.0.1

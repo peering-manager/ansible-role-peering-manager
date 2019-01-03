@@ -1,0 +1,32 @@
+---
+peering_manager_secretkey_script: |
+  from random import SystemRandom
+  charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$^&*(-_=+)"
+  print("".join(SystemRandom().sample(charset, 50)))
+peering_manager_superuser_script: |
+  from django.contrib.auth.models import User
+  from base64 import b64decode
+
+  password = b64decode("{{ peering_manager_superuser_password | b64encode }}").decode(
+      "UTF-8"
+  )
+  try:
+      user = User.objects.get(username="{{ peering_manager_superuser_username }}")
+      if (
+          not user.is_superuser
+          or user.email != "{{ peering_manager_superuser_email }}"
+          or not user.check_password(password)
+      ):
+          user.is_superuser = True
+          user.is_staff = True
+          user.email = "{{ peering_manager_superuser_email }}"
+          user.set_password(password)
+          user.save()
+          print("changed")
+  except User.DoesNotExist:
+      User.objects.create_superuser(
+          "{{ peering_manager_superuser_username }}",
+          "{{ peering_manager_superuser_email }}",
+          password,
+      )
+      print("changed")

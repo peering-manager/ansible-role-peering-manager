@@ -1,0 +1,34 @@
+---
+- name: install gunicorn
+  pip:
+    name: gunicorn
+    extra_args: "--upgrade"
+    virtualenv: "{{ peering_manager_virtualenv_path }}"
+    virtualenv_command: "{{ peering_manager_python_binary }} -m venv"
+  become: true
+  become_user: "{{ peering_manager_user }}"
+
+- name: configure gunicorn
+  template:
+    src: gunicorn_process.sh.j2
+    dest: "{{ peering_manager_user_home_directory }}/gunicorn_process.sh"
+    owner: "{{ peering_manager_user }}"
+    group: "{{ peering_manager_group }}"
+    mode: 0755
+  notify:
+    - restart peering-manager
+
+- name: configure supervisord
+  template:
+    src: peering_manager.conf.j2
+    dest: "{{ peering_manager_supervisord_config_directory }}/peering-manager.conf"
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart peering-manager
+
+- name: ensure supervisord is started
+  service:
+    name: "{{ peering_manager_supervisord_service }}"
+    state: started

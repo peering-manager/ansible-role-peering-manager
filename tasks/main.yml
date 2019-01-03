@@ -1,0 +1,27 @@
+---
+- import_tasks: include_vars.yml
+- import_tasks: install_packages.yml
+
+- name: ensure python 3 is used
+  set_fact:
+    ansible_python_interpreter: "{{ peering_manager_python_binary }}"
+
+- block:
+  - name: create peering_manager group
+    group:
+      name: "{{ peering_manager_group }}"
+
+  - name: create peering_manager user
+    user:
+      name: "{{ peering_manager_user }}"
+      group: "{{ peering_manager_group }}"
+      home: "{{ peering_manager_user_home_directory }}"
+
+- import_tasks: setup_database.yml
+  when: peering_manager_database_host == 'localhost'
+- import_tasks: setup_peering_manager.yml
+
+- include: setup_web_backend.yml
+  when: peering_manager_setup_web_backend
+- include: setup_web_frontend.yml
+  when: peering_manager_setup_web_frontend

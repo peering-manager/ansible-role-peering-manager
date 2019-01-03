@@ -1,0 +1,21 @@
+---
+- name: ensure postgresql is ready
+  service:
+    name: postgresql
+    state: started
+
+- name: create postgresql database
+  postgresql_db:
+    name: "{{ peering_manager_database }}"
+  become: true
+  become_user: "{{ __peering_manager_postgresql_user }}"
+
+- name: create postgresql user
+  postgresql_user:
+    name: "{{ peering_manager_database_user }}"
+    password: "{{ peering_manager_database_password }}"
+    encrypted: true
+    db: "{{ peering_manager_database }}"
+    priv: ALL
+  become: true
+  become_user: "{{ __peering_manager_postgresql_user }}"

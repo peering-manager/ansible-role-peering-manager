@@ -1,0 +1,22 @@
+---
+galaxy_info:
+  author: Guillaume Mazoyer
+  description: A role to install and update Peering Manager.
+  license: GPL-3+
+  min_ansible_version: 2.5.0
+  platforms:
+    - name: Debian
+      versions:
+        - stretch
+    - name: Ubuntu
+      versions:
+        - bionic
+  galaxy_tags:
+    - networking
+    - routing
+    - peering
+    - bgp
+    - django
+
+dependencies: []
+allow_duplicates: true

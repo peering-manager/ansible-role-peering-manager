@@ -1,0 +1,33 @@
+---
+- name: enable mod_proxy and mod_proxy_http
+  apache2_module:
+    state: present
+    name: "{{ item }}"
+  with_items:
+    - proxy
+    - proxy_http
+    - wsgi
+  notify:
+    - restart apache2
+
+- name: remove default vhost
+  file:
+    path: "{{ peering_manager_apache2_sites_enabled_path }}/{{ peering_manager_apache2_default_vhost }}"
+    state: absent
+  notify:
+    - restart apache2
+
+- name: configure peering-manager vhost
+  template:
+    src: peering_manager_vhost.conf.j2
+    dest: "{{ peering_manager_apache2_sites_available_path }}/peering-manager.conf"
+    owner: "{{ peering_manager_apache2_user }}"
+    group: "{{ peering_manager_apache2_group }}"
+
+- name: enable peering-manager vhost
+  file:
+    src: "{{ peering_manager_apache2_sites_available_path }}/peering-manager.conf"
+    dest: "{{ peering_manager_apache2_sites_enabled_path }}/peering-manager.conf"
+    state: link
+  notify:
+    - restart apache2

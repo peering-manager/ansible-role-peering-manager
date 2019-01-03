@@ -1,0 +1,22 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+
+  pre_tasks:
+    - name: update apt cache
+      apt:
+        update_cache: true
+        cache_valid_time: 600
+      when: ansible_os_family == 'Debian'
+
+    - name: add as number to config
+      set_fact:
+        peering_manager_config: "{{ peering_manager_config | combine({'MY_ASN': 201281}) }}"
+
+  vars:
+    peering_manager_setup_web_backend: true
+    peering_manager_setup_web_frontend: true
+
+  roles:
+    - role: ansible-role-peering-manager

@@ -1,0 +1,128 @@
+---
+- name: check if there is an existing installation
+  stat:
+    path: "{{ peering_manager_install_directory }}"
+  register: peering_manager_installed
+
+- name: create the install directory
+  file:
+    path: "{{ peering_manager_install_directory }}"
+    owner: "{{ peering_manager_user }}"
+    group: "{{ peering_manager_group }}"
+    state: directory
+  when: not peering_manager_installed.stat.exists
+
+- name: download using git
+  git:
+    repo: "{{ peering_manager_git_url }}"
+    version: "{{ peering_manager_version }}"
+    dest: "{{ peering_manager_install_directory }}"
+  become: true
+  become_user: "{{ peering_manager_user }}"
+  register: peering_manager_downloaded
+
+- name: upgrade pip in virtualenv
+  pip:
+    name: pip
+    extra_args: "--upgrade"
+    virtualenv: "{{ peering_manager_virtualenv_path }}"
+    virtualenv_command: "{{ peering_manager_python_binary }} -m venv"
+  become: true
+  become_user: "{{ peering_manager_user }}"
+
+- block:
+  - name: delete stale bytecode
+    command: find . -name '*.pyc' -delete
+    args:
+      chdir: "{{ peering_manager_install_directory }}"
+    notify:
+      - restart peering-manager
+
+  - name: install python requirements
+    pip:
+      requirements: "{{ peering_manager_install_directory }}/requirements.txt"
+      extra_args: "--upgrade"
+      virtualenv: "{{ peering_manager_virtualenv_path }}"
+      virtualenv_command: "{{ peering_manager_python_binary }} -m venv"
+    become: true
+    become_user: "{{ peering_manager_user }}"
+    notify:
+      - restart peering-manager
+  when: peering_manager_downloaded.changed
+
+- block:
+  - name: generate a secret key
+    shell: "printf '{{ peering_manager_secretkey_script }}' | {{ peering_manager_python_binary }} | tr -d $'\n' > {{ peering_manager_user_home_directory }}/secret.key"
+    args:
+      creates: "{{ peering_manager_user_home_directory }}/secret.key"
+    become: true
+    become_user: "{{ peering_manager_user }}"
+
+  - name: load secret key
+    slurp:
+      src: "{{ peering_manager_user_home_directory }}/secret.key"
+    register: __peering_manager_secret_key_file
+
+  - name: set secret key in configuration
+    set_fact:
+      peering_manager_config: "{{ peering_manager_config | combine({'SECRET_KEY': __peering_manager_secret_key_file['content'] | b64decode}) }}"
+
+- name: configure peering-manager
+  template:
+    src: configuration.py.j2
+    dest: "{{ peering_manager_install_directory }}/peering_manager/configuration.py"
+    owner: "{{ peering_manager_user }}"
+    group: "{{ peering_manager_group }}"
+    mode: 0644
+  notify:
+    - restart peering-manager
+
+- block:
+  - name: install django-auth-ldap
+    pip:
+      name: django-auth-ldap
+      extra_args: "--upgrade"
+      virtualenv: "{{ peering_manager_virtualenv_path }}"
+      virtualenv_command: "{{ peering_manager_python_binary }} -m venv"
+    become: true
+    become_user: "{{ peering_manager_user }}"
+  - name: configure ldap auth
+    copy:
+      content: "{{ peering_manager_ldap_config }}"
+      dest: "{{ peering_manager_install_directory }}/peering_manager/ldap_config.py"
+      owner: "{{ peering_manager_user }}"
+      group: "{{ peering_manager_group }}"
+      mode: 0644
+    notify:
+      - restart peering-manager
+  when: peering_manager_setup_ldap_auth
+
+- block:
+  - name: perform database migration
+    django_manage:
+      app_path: "{{ peering_manager_install_directory }}"
+      command: migrate
+      virtualenv: "{{ peering_manager_virtualenv_path }}"
+    become: true
+    become_user: "{{ peering_manager_user }}"
+    notify:
+      - restart peering-manager
+  - name: collect static files
+    django_manage:
+      app_path: "{{ peering_manager_install_directory }}"
+      command: collectstatic
+      clear: true
+      virtualenv: "{{ peering_manager_virtualenv_path }}"
+    become: true
+    become_user: "{{ peering_manager_user }}"
+  when: peering_manager_downloaded.changed
+
+- name: create super user
+  shell: "printf '{{ peering_manager_superuser_script }}' | {{ peering_manager_virtualenv_path }}/bin/python {{ peering_manager_install_directory }}/manage.py shell"
+  args:
+    chdir: "{{ peering_manager_install_directory }}"
+  become: true
+  become_user: "{{ peering_manager_user }}"
+  register: __peering_manager_superuser_result
+  changed_when: "'changed' in __peering_manager_superuser_result.stdout"
+  when: not peering_manager_installed.stat.exists
