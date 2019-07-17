@@ -57,7 +57,6 @@
 - block:
   - name: generate a secret key
     shell: |
-      set -o pipefail
       printf '{{ peering_manager_secretkey_script }}' | \
       {{ peering_manager_python_binary }} | \
       tr -d $'\n' > {{ peering_manager_user_home_directory }}/secret.key
@@ -129,7 +128,6 @@
 
 - name: create super user
   shell: |
-    set -o pipefail
     printf '{{ peering_manager_superuser_script }}' | \
     {{ peering_manager_virtualenv_path }}/bin/python {{ peering_manager_install_directory }}/manage.py shell
   args:
