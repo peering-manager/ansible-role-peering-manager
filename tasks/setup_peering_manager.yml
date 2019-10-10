@@ -32,26 +32,18 @@
   register: pip_result
   until: pip_result is success
 
-- block:
-  - name: delete stale bytecode
-    command: find . -name '*.pyc' -delete
-    args:
-      chdir: "{{ peering_manager_install_directory }}"
-    notify:
-      - restart peering-manager
-
-  - name: install python requirements
-    pip:
-      requirements: "{{ peering_manager_install_directory }}/requirements.txt"
-      extra_args: "--upgrade"
-      virtualenv: "{{ peering_manager_virtualenv_path }}"
-      virtualenv_command: "{{ peering_manager_python_binary }} -m venv"
-    become: true
-    become_user: "{{ peering_manager_user }}"
-    register: pip_result
-    until: pip_result is success
-    notify:
-      - restart peering-manager
+- name: install python requirements
+  pip:
+    requirements: "{{ peering_manager_install_directory }}/requirements.txt"
+    extra_args: "--upgrade"
+    virtualenv: "{{ peering_manager_virtualenv_path }}"
+    virtualenv_command: "{{ peering_manager_python_binary }} -m venv"
+  become: true
+  become_user: "{{ peering_manager_user }}"
+  register: pip_result
+  until: pip_result is success
+  notify:
+    - restart peering-manager
   when: peering_manager_downloaded.changed
 
 - block:
@@ -111,6 +103,15 @@
     django_manage:
       app_path: "{{ peering_manager_install_directory }}"
       command: migrate
+      virtualenv: "{{ peering_manager_virtualenv_path }}"
+    become: true
+    become_user: "{{ peering_manager_user }}"
+    notify:
+      - restart peering-manager
+  - name: remove stale content types
+    django_manage:
+      app_path: "{{ peering_manager_install_directory }}"
+      command: remove_stale_contenttypes
       virtualenv: "{{ peering_manager_virtualenv_path }}"
     become: true
     become_user: "{{ peering_manager_user }}"
