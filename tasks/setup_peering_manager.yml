@@ -111,7 +111,7 @@
   - name: remove stale content types
     django_manage:
       app_path: "{{ peering_manager_install_directory }}"
-      command: remove_stale_contenttypes
+      command: remove_stale_contenttypes --noinput
       virtualenv: "{{ peering_manager_virtualenv_path }}"
     become: true
     become_user: "{{ peering_manager_user }}"
