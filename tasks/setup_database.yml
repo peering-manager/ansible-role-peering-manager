@@ -8,7 +8,7 @@
   postgresql_db:
     name: "{{ peering_manager_database }}"
   become: true
-  become_user: "{{ __peering_manager_postgresql_user }}"
+  become_user: "{{ peering_manager_postgresql_user }}"
 
 - name: create postgresql user
   postgresql_user:
@@ -18,4 +18,9 @@
     db: "{{ peering_manager_database }}"
     priv: ALL
   become: true
-  become_user: "{{ __peering_manager_postgresql_user }}"
+  become_user: "{{ peering_manager_postgresql_user }}"
+
+- name: ensure redis is ready
+  service:
+    name: "{{ peering_manager_redis_service }}"
+    state: started

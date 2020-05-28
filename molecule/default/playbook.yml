@@ -16,7 +16,7 @@
 
   vars:
     peering_manager_setup_ldap_auth: true
-    peering_manager_setup_web_backend: true
+    peering_manager_setup_systemd: true
     peering_manager_setup_web_frontend: true
 
   roles:

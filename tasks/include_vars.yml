@@ -16,6 +16,11 @@
     peering_manager_postgresql_packages: "{{ __peering_manager_postgresql_packages | list }}"
   when: peering_manager_postgresql_packages is not defined
 
+- name: define redis packages
+  set_fact:
+    peering_manager_redis_packages: "{{ __peering_manager_redis_packages | list }}"
+  when: peering_manager_redis_packages is not defined
+
 - name: define ldap packages
   set_fact:
     peering_manager_ldap_packages: "{{ __peering_manager_ldap_packages | list }}"
@@ -25,11 +30,6 @@
   set_fact:
     peering_manager_other_packages: "{{ __peering_manager_other_packages | list }}"
   when: peering_manager_other_packages is not defined
-
-- name: define web backend packages
-  set_fact:
-    peering_manager_web_backend_packages: "{{ __peering_manager_web_backend_packages | list }}"
-  when: peering_manager_web_backend_packages is not defined
 
 - name: define web frontend packages
   set_fact:

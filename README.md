@@ -29,7 +29,7 @@ Setup for the PostgreSQL database:
 
 Where to get Peering Manager and which version:
 
-    peering_manager_version: HEAD
+    peering_manager_version: 1.1.0
     peering_manager_git_url: https://github.com/respawner/peering-manager.git
 
 Where to install Peering Manager:
@@ -62,12 +62,12 @@ will be generated automatically:
       TIME_ZONE: "Europe/Paris"
       …
 
-Configuration for the backend web servers:
+Configuration for the backend web server and systemd:
 
-    peering_manager_setup_web_backend: false
+    peering_manager_systemd: false
     peering_manager_gunicorn_address: 127.0.0.1
     peering_manager_gunicorn_port: 8001
-    peering_manager_gunicorn_workers_number: 4
+    peering_manager_gunicorn_workers_number: 5
 
 Whether or not to configure the frontend web server:
 

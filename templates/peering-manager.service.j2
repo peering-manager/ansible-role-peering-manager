@@ -1,0 +1,22 @@
+[Unit]
+Description=Peering Manager WSGI Service
+Documentation=https://peering-manager.readthedocs.io/
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+
+User={{ peering_manager_user }}
+Group={{ peering_manager_group }}
+PIDFile={{ peering_manager_pid }}
+WorkingDirectory={{ peering_manager_install_directory }}
+
+ExecStart={{ peering_manager_install_directory }}/venv/bin/gunicorn --pid /var/tmp/peering-manager.pid --pythonpath {{ peering_manager_install_directory }} --config {{ peering_manager_install_directory }}/gunicorn.py peering-manager.wsgi
+
+Restart=on-failure
+RestartSec=30
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

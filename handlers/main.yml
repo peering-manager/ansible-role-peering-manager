@@ -1,9 +1,13 @@
 ---
+- name: reload systemd
+  systemd:
+    daemon_reload: true
+
 - name: restart peering-manager
-  supervisorctl:
+  service:
     name: peering-manager
     state: restarted
-  when: peering_manager_setup_web_backend
+  when: peering_manager_setup_systemd
 
 - name: restart apache2
   service:

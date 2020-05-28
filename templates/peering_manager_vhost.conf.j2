@@ -20,7 +20,8 @@
   </Location>
 
   ProxyPreserveHost On
-  ProxyPass        / http://{{ peering_manager_gunicorn_address }}:{{ peering_manager_gunicorn_port }}/
-  ProxyPassReverse / http://{{ peering_manager_gunicorn_address }}:{{ peering_manager_gunicorn_port }}/
+  RequestHeader     set "X-Forwarded-Proto" expr=%{REQUEST_SCHEME}
+  ProxyPass         / http://{{ peering_manager_gunicorn_address }}:{{ peering_manager_gunicorn_port }}/
+  ProxyPassReverse  / http://{{ peering_manager_gunicorn_address }}:{{ peering_manager_gunicorn_port }}/
 </VirtualHost>
 {% endfor %}

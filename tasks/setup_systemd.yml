@@ -12,25 +12,21 @@
 
 - name: configure gunicorn
   template:
-    src: gunicorn_process.sh.j2
-    dest: "{{ peering_manager_user_home_directory }}/gunicorn_process.sh"
+    src: gunicorn.py.j2
+    dest: "{{ peering_manager_install_directory }}/gunicorn.py"
     owner: "{{ peering_manager_user }}"
     group: "{{ peering_manager_group }}"
-    mode: 0755
-  notify:
-    - restart peering-manager
-
-- name: configure supervisord
-  template:
-    src: peering_manager.conf.j2
-    dest: "{{ peering_manager_supervisord_config_directory }}/peering-manager.conf"
-    owner: root
-    group: root
     mode: 0644
   notify:
     - restart peering-manager
 
-- name: ensure supervisord is started
-  service:
-    name: "{{ peering_manager_supervisord_service }}"
-    state: started
+- name: configure systemd
+  template:
+    src: peering-manager.service.j2
+    dest: "{{ peering_manager_systemd_directory }}/peering-manager.service"
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - reload systemd
+    - restart peering-manager

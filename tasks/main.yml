@@ -15,13 +15,13 @@
     user:
       name: "{{ peering_manager_user }}"
       group: "{{ peering_manager_group }}"
-      home: "{{ peering_manager_user_home_directory }}"
+      create_home: false
 
 - import_tasks: setup_database.yml
   when: peering_manager_database_host == 'localhost'
 - import_tasks: setup_peering_manager.yml
 
-- include: setup_web_backend.yml
-  when: peering_manager_setup_web_backend
+- include: setup_systemd.yml
+  when: peering_manager_setup_systemd
 - include: setup_web_frontend.yml
   when: peering_manager_setup_web_frontend

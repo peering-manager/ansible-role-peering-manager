@@ -1,6 +1,6 @@
 ---
 # Git URL and version to use, version must be a Git tag
-peering_manager_version: HEAD
+peering_manager_version: v1.1.0
 peering_manager_git_url: https://github.com/respawner/peering-manager.git
 
 # Where to install Netbox
@@ -10,7 +10,6 @@ peering_manager_virtualenv_path: "{{ peering_manager_install_directory }}/venv"
 # Which user/group should own the files
 peering_manager_user: peering-manager
 peering_manager_group: peering-manager
-peering_manager_user_home_directory: /home/peering-manager
 
 # Mostly used for the first setup, superuser password still need to be set
 peering_manager_superuser_username: admin
@@ -27,11 +26,11 @@ peering_manager_setup_ldap_auth: false
 # https://peering-manager.readthedocs.io/en/latest/setup/ldap/
 peering_manager_ldap_config: ""
 
-# Web backend variables (not configured by default)
-peering_manager_setup_web_backend: false
+# Systemd unit variables (not configured by default)
+peering_manager_setup_systemd: false
 peering_manager_gunicorn_address: 127.0.0.1
 peering_manager_gunicorn_port: 8001
-peering_manager_gunicorn_workers_number: 4
+peering_manager_gunicorn_workers_number: 5
 
 # Web frontend variables (not configured by default)
 peering_manager_setup_web_frontend: false
