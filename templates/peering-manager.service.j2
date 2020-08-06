@@ -12,7 +12,7 @@ Group={{ peering_manager_group }}
 PIDFile={{ peering_manager_pid }}
 WorkingDirectory={{ peering_manager_install_directory }}
 
-ExecStart={{ peering_manager_install_directory }}/venv/bin/gunicorn --pid /var/tmp/peering-manager.pid --pythonpath {{ peering_manager_install_directory }} --config {{ peering_manager_install_directory }}/gunicorn.py peering-manager.wsgi
+ExecStart={{ peering_manager_virtualenv_path }}/bin/gunicorn --pid /var/tmp/peering-manager.pid --pythonpath {{ peering_manager_install_directory }} --config {{ peering_manager_install_directory }}/gunicorn.py peering_manager.wsgi
 
 Restart=on-failure
 RestartSec=30
