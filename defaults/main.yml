@@ -1,6 +1,6 @@
 ---
 # Git URL and version to use, version must be a Git tag
-peering_manager_version: v1.1.0
+peering_manager_version: v1.2.0
 peering_manager_git_url: https://github.com/respawner/peering-manager.git
 
 # Where to install Netbox

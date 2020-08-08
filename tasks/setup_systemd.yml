@@ -20,7 +20,7 @@
   notify:
     - restart peering-manager
 
-- name: configure systemd
+- name: configure systemd service
   template:
     src: peering-manager.service.j2
     dest: "{{ peering_manager_systemd_directory }}/peering-manager.service"
@@ -30,3 +30,15 @@
   notify:
     - reload systemd
     - restart peering-manager
+
+- name: configure rqworker systemd service
+  template:
+    src: peering-manager-rqworker.service.j2
+    dest: "{{ peering_manager_systemd_directory }}/peering-manager-rqworker.service"
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - reload systemd
+    - restart peering-manager
+    - restart peering-manager rqworker

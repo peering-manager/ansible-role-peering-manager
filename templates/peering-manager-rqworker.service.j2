@@ -1,0 +1,21 @@
+[Unit]
+Description=Peering Manager Request Queue Worker
+Documentation=https://peering-manager.readthedocs.io/
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+
+User={{ peering_manager_user }}
+Group={{ peering_manager_group }}
+WorkingDirectory={{ peering_manager_install_directory }}
+
+ExecStart={{ peering_manager_virtualenv_path }}/bin/python3 {{ peering_manager_install_directory }}/netbox/manage.py rqworker
+
+Restart=on-failure
+RestartSec=30
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
