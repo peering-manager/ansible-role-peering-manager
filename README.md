@@ -30,7 +30,7 @@ Setup for the PostgreSQL database:
 Where to get Peering Manager and which version:
 
     peering_manager_version: 1.2.0
-    peering_manager_git_url: https://github.com/respawner/peering-manager.git
+    peering_manager_git_url: https://github.com/peering-manager/peering-manager.git
 
 Where to install Peering Manager:
 
