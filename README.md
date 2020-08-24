@@ -64,7 +64,7 @@ will be generated automatically:
 
 Configuration for the backend web server and systemd:
 
-    peering_manager_systemd: false
+    peering_manager_setup_systemd: false
     peering_manager_gunicorn_address: 127.0.0.1
     peering_manager_gunicorn_port: 8001
     peering_manager_gunicorn_workers_number: 5
