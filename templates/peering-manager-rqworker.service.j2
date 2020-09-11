@@ -11,7 +11,7 @@ User={{ peering_manager_user }}
 Group={{ peering_manager_group }}
 WorkingDirectory={{ peering_manager_install_directory }}
 
-ExecStart={{ peering_manager_virtualenv_path }}/bin/python3 {{ peering_manager_install_directory }}/netbox/manage.py rqworker
+ExecStart={{ peering_manager_virtualenv_path }}/bin/python3 {{ peering_manager_install_directory }}/manage.py rqworker
 
 Restart=on-failure
 RestartSec=30
