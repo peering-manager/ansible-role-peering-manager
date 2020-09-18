@@ -1,0 +1,38 @@
+- name: CRON Peering-DB Sync
+  cron:
+    name: "Sync Peering-DB"
+    minute: "30"
+    hour: "2"
+    job: "cd /opt/peering-manager && python3 manage.py peeringdb_sync"
+    user: "{{ peering_manager_user }}"
+    cron_file: "peering-manager"
+- name: CRON Configure Routers
+  cron:
+    name: "Configure Routers"
+    minute: "55"
+    job: "cd /opt/peering-manager && python3 manage.py configure_routers"
+    user: "{{ peering_manager_user }}"
+    cron_file: "peering-manager"
+- name: CRON Poll peering sessions
+  cron:
+    name: "Poll peering sessions"
+    minute: "0"
+    job: "cd /opt/peering-manager && python3 manage.py poll_peering_sessions --all"
+    user: "{{ peering_manager_user }}"
+    cron_file: "peering-manager"
+- name: CRON Check for IX Peering sessions
+  cron:
+    name: "CHeck for IX Peering sessions"
+    minute: "0"
+    hour: "0"
+    job: "cd /opt/peering-manager && python3 manage.py check_for_ix_peering_sessions"
+    user: "{{ peering_manager_user }}"
+    cron_file: "peering-manager"
+- name: CRON Grab prefixes
+  cron:
+    name: "Grab prefixes"
+    minute: "30"
+    hour: "4"
+    job: "cd /opt/peering-manager && python3 manage.py grab_prefixes"
+    user: "{{ peering_manager_user }}"
+    cron_file: "peering-manager"
