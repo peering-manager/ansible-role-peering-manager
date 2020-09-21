@@ -1,38 +1,38 @@
-- name: CRON Peering-DB Sync
+- name: cron peering-db Sync
   cron:
     name: "Sync Peering-DB"
     minute: "30"
     hour: "2"
-    job: "cd {{ peering_manager_install_directory }} && python3 manage.py peeringdb_sync"
+    job: "cd {{ peering_manager_install_directory }} && venv/bin/python3 manage.py peeringdb_sync"
     user: "{{ peering_manager_user }}"
     cron_file: "peering-manager"
-- name: CRON Configure Routers
+- name: cron configure routers
   cron:
     name: "Configure Routers"
     minute: "55"
-    job: "cd {{ peering_manager_install_directory }} && python3 manage.py configure_routers"
+    job: "cd {{ peering_manager_install_directory }} && venv/bin/python3 manage.py configure_routers"
     user: "{{ peering_manager_user }}"
     cron_file: "peering-manager"
-- name: CRON Poll peering sessions
+- name: cron poll peering sessions
   cron:
     name: "Poll peering sessions"
     minute: "0"
-    job: "cd {{ peering_manager_install_directory }} && python3 manage.py poll_peering_sessions --all"
+    job: "cd {{ peering_manager_install_directory }} && venv/bin/python3 manage.py poll_peering_sessions --all"
     user: "{{ peering_manager_user }}"
     cron_file: "peering-manager"
-- name: CRON Check for IX Peering sessions
+- name: cron check for ix peering sessions
   cron:
-    name: "CHeck for IX Peering sessions"
+    name: "Check for IX Peering sessions"
     minute: "0"
     hour: "0"
-    job: "cd {{ peering_manager_install_directory }} && python3 manage.py check_for_ix_peering_sessions"
+    job: "cd {{ peering_manager_install_directory }} && venv/bin/python3 manage.py check_for_ix_peering_sessions"
     user: "{{ peering_manager_user }}"
     cron_file: "peering-manager"
-- name: CRON Grab prefixes
+- name: cron grab prefixes
   cron:
     name: "Grab prefixes"
     minute: "30"
     hour: "4"
-    job: "cd {{ peering_manager_install_directory }} && python3 manage.py grab_prefixes"
+    job: "cd {{ peering_manager_install_directory }} && venv/bin/python3 manage.py grab_prefixes"
     user: "{{ peering_manager_user }}"
     cron_file: "peering-manager"

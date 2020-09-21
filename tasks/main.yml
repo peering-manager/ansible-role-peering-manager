@@ -26,4 +26,4 @@
 - include: setup_web_frontend.yml
   when: peering_manager_setup_web_frontend
 - include: setup_cron.yml
-
+  when: peering_manager_setup_cron_jobs
