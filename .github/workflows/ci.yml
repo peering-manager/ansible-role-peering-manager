@@ -25,3 +25,7 @@ jobs:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
           MOLECULE_DISTRO: ${{ matrix.distro }}
+      - name: Notify Ansible Galaxy
+        uses: robertdebock/galaxy-action@1.1.0
+        with:
+          galaxy_api_key: ${{ secrets.GALAXY_API_KEY }}
