@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/respawner/ansible-role-peering-manager.svg?branch=master)](https://travis-ci.org/respawner/ansible-role-peering-manager)
+[![CI](https://github.com/peering-manager/ansible-role-peering-manager/workflows/CI/badge.svg?event=push)](https://github.com/peering-manager/ansible-role-peering-manager/actions?query=workflow%3ACI)
 [![Ansible Galaxy](https://img.shields.io/badge/ansible--galaxy-peering--manager-blue.svg)](https://galaxy.ansible.com/respawner/peering_manager)
 
 # Ansible Role: Peering Manager

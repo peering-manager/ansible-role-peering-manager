@@ -10,7 +10,7 @@ on:
 
 defaults:
   run:
-    working-directory: 'respawner.peering-manager'
+    working-directory: 'respawner.peering_manager'
 
 jobs:
   lint:
@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          path: 'respawner.peering-manager'
+          path: 'respawner.peering_manager'
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
@@ -42,7 +42,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          path: 'respawner.peering-manager'
+          path: 'respawner.peering_manager'
       - name: Setup Python
         uses: actions/setup-python@v2
         with:

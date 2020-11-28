@@ -24,6 +24,7 @@
     dest: "{{ peering_manager_apache2_sites_available_path }}/peering-manager.conf"
     owner: "{{ peering_manager_apache2_user }}"
     group: "{{ peering_manager_apache2_group }}"
+    mode: 0644
 
 - name: enable peering-manager vhost
   file:
