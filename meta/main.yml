@@ -1,6 +1,6 @@
 ---
 galaxy_info:
-  role_name: peering-manager
+  role_name: peering_manager
   author: Guillaume Mazoyer
   description: A role to install and update Peering Manager.
   license: GPL-3+

@@ -3,10 +3,10 @@
 
 # Ansible Role: Peering Manager
 
-An Ansible Role that installs on Debian/Ubuntu.
+An Ansible Role that installs Peering Manager on Debian/Ubuntu.
 
 This role install all dependencies required by Peering Manager including the
-PostgreSQL database. So it can be used to setup a Peering Manager appliance
+PostgreSQL database. So it can be used to setup Peering Manager as an appliance
 including everything in the same machine.
 
 Web backend and frontend setups can be disabled if you already have your own
@@ -75,7 +75,7 @@ Whether or not to configure the frontend web server:
 
 ## Example Playbook
 
-    - hosts: peering-manager
+    - hosts: peering_manager
       roles:
         - { role: respawner.peering_manager }
 
