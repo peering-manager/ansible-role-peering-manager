@@ -8,7 +8,7 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
 
 
 def test_hosts_all(host):
-    # Check if NetBox has been installed in the right directory
+    # Check if Peering Manager is in the right directory
     peering_manager_install_directory = host.file("/opt/peering-manager/")
 
     assert peering_manager_install_directory.exists

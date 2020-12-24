@@ -1,7 +1,7 @@
 # {{ ansible_managed }}
 
-# The IP address (typically localhost) and port that the Netbox WSGI process
-# should listen on
+# The IP address (typically localhost) and port that the Peering Manager  WSGI
+# process should listen on
 bind = '{{ peering_manager_gunicorn_address }}:{{ peering_manager_gunicorn_port }}'
 
 # Number of gunicorn workers to spawn. This should typically be 2n+1, where
