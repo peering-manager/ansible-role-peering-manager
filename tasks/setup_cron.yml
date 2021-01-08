@@ -20,11 +20,6 @@
     job: "cd {{ peering_manager_install_directory }} && venv/bin/python3 manage.py poll_peering_sessions --all"
     user: "{{ peering_manager_user }}"
     cron_file: peering_manager
-- name: remove cron check for ix peering sessions
-  cron:
-    name: Check for IX Peering sessions
-    cron_file: peering_manager
-    state: absent
 - name: cron grab prefixes
   cron:
     name: Grab prefixes
