@@ -20,4 +20,4 @@
         peering_manager_config: "{{ peering_manager_config | combine({'MY_ASN': 201281}) }}"
 
   roles:
-    - role: respawner.peering_manager
+    - role: gmazoyer.peering_manager

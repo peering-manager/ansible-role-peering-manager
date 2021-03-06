@@ -10,7 +10,7 @@ on:
 
 defaults:
   run:
-    working-directory: 'respawner.peering_manager'
+    working-directory: "gmazoyer.peering_manager"
 
 jobs:
   lint:
@@ -19,15 +19,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          path: 'respawner.peering_manager'
+          path: "gmazoyer.peering_manager"
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.x'
+          python-version: "3.x"
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip3 install ansible-lint
+          python -m pip install --upgrade pip wheel
+          pip3 install ansible ansible-lint
       - name: Lint code
         run: ansible-lint
 
@@ -42,20 +42,20 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          path: 'respawner.peering_manager'
+          path: "gmazoyer.peering_manager"
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.x'
+          python-version: "3.x"
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
+          python -m pip install --upgrade pip wheel
           pip3 install ansible molecule[docker] docker
       - name: Run Molecule
         run: molecule test
         env:
-          PY_COLORS: '1'
-          ANSIBLE_FORCE_COLOR: '1'
+          PY_COLORS: "1"
+          ANSIBLE_FORCE_COLOR: "1"
           MOLECULE_DISTRO: ${{ matrix.distro }}
       - name: Trigger Galaxy import
         run: >-

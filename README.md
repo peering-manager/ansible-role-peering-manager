@@ -1,5 +1,5 @@
 [![CI](https://github.com/peering-manager/ansible-role-peering-manager/workflows/CI/badge.svg?event=push)](https://github.com/peering-manager/ansible-role-peering-manager/actions?query=workflow%3ACI)
-[![Ansible Galaxy](https://img.shields.io/badge/ansible--galaxy-peering--manager-blue.svg)](https://galaxy.ansible.com/respawner/peering_manager)
+[![Ansible Galaxy](https://img.shields.io/badge/ansible--galaxy-peering--manager-blue.svg)](https://galaxy.ansible.com/gmazoyer/peering_manager)
 
 # Ansible Role: Peering Manager
 
@@ -77,7 +77,7 @@ Whether or not to configure the frontend web server:
 
     - hosts: peering_manager
       roles:
-        - { role: respawner.peering_manager }
+        - { role: gmazoyer.peering_manager }
 
 ## License
 
@@ -86,4 +86,4 @@ the LICENSE file for more information.
 
 ## Author Information
 
-This role was created in 2019 by [Guillaume Mazoyer](https://respawner.fr).
+This role was created in 2019 by [Guillaume Mazoyer](https://mazoyer.eu).
