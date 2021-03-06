@@ -1,7 +1,6 @@
 ---
 - name: Converge
   hosts: all
-  become: true
 
   vars:
     peering_manager_setup_ldap_auth: true

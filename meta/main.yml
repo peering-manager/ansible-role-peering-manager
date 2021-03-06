@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   role_name: peering_manager
-  author: Guillaume Mazoyer
+  author: gmazoyer
   description: A role to install and update Peering Manager.
   license: GPL-3+
   min_ansible_version: 2.5.0
