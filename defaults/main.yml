@@ -1,6 +1,6 @@
 ---
 # Git URL and version to use, version must be a Git tag
-peering_manager_version: v1.3.1
+peering_manager_version: v1.3.2
 peering_manager_git_url: https://github.com/peering-manager/peering-manager.git
 
 # Where to install Peering Manager
