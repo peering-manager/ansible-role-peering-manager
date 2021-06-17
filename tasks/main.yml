@@ -10,10 +10,12 @@
 
 - block:
   - name: create peering_manager group
+    become: yes
     ansible.builtin.group:
       name: "{{ peering_manager_group }}"
 
   - name: create peering_manager user
+    become: yes
     ansible.builtin.user:
       name: "{{ peering_manager_user }}"
       group: "{{ peering_manager_group }}"

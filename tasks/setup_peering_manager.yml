@@ -5,6 +5,7 @@
   register: peering_manager_installed
 
 - name: create the install directory
+  become: yes
   ansible.builtin.file:
     path: "{{ peering_manager_install_directory }}"
     owner: "{{ peering_manager_user }}"
@@ -70,6 +71,7 @@
       peering_manager_config: "{{ peering_manager_config | combine({'SECRET_KEY': __peering_manager_secret_key_file['content'] | b64decode}) }}"
 
 - name: configure peering-manager
+  become: yes
   ansible.builtin.template:
     src: configuration.py.j2
     dest: "{{ peering_manager_install_directory }}/peering_manager/configuration.py"

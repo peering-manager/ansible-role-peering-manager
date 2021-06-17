@@ -1,4 +1,5 @@
 - name: cron peeringdb sync
+  become: yes
   ansible.builtin.cron:
     name: Sync PeeringDB
     minute: 30
@@ -7,6 +8,7 @@
     user: "{{ peering_manager_user }}"
     cron_file: peering_manager
 - name: cron configure routers
+  become: yes
   ansible.builtin.cron:
     name: Configure Routers
     minute: 55
@@ -14,6 +16,7 @@
     user: "{{ peering_manager_user }}"
     cron_file: peering_manager
 - name: cron poll peering sessions
+  become: yes
   ansible.builtin.cron:
     name: Poll peering sessions
     minute: 0
@@ -21,6 +24,7 @@
     user: "{{ peering_manager_user }}"
     cron_file: peering_manager
 - name: cron grab prefixes
+  become: yes
   ansible.builtin.cron:
     name: Grab prefixes
     minute: 30

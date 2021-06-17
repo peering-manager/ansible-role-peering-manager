@@ -1,5 +1,6 @@
 ---
 - name: enable mod_proxy and mod_proxy_http
+  become: yes
   community.general.apache2_module:
     state: present
     name: "{{ item }}"
@@ -12,6 +13,7 @@
     - restart apache2
 
 - name: remove default vhost
+  become: yes
   ansible.builtin.file:
     path: "{{ peering_manager_apache2_sites_enabled_path }}/{{ peering_manager_apache2_default_vhost }}"
     state: absent
@@ -19,6 +21,7 @@
     - restart apache2
 
 - name: configure peering-manager vhost
+  become: yes
   ansible.builtin.template:
     src: peering_manager_vhost.conf.j2
     dest: "{{ peering_manager_apache2_sites_available_path }}/peering-manager.conf"
@@ -27,6 +30,7 @@
     mode: 0644
 
 - name: enable peering-manager vhost
+  become: yes
   ansible.builtin.file:
     src: "{{ peering_manager_apache2_sites_available_path }}/peering-manager.conf"
     dest: "{{ peering_manager_apache2_sites_enabled_path }}/peering-manager.conf"

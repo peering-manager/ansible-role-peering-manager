@@ -1,9 +1,13 @@
 ---
 - name: ensure postgresql is ready
+  become: true
   ansible.builtin.service:
     name: postgresql
     state: started
     enabled: true
+  notify: restart psql
+
+- meta: flush_handlers
 
 - name: create postgresql database
   community.postgresql.postgresql_db:
@@ -27,6 +31,7 @@
   become_user: "{{ peering_manager_postgresql_user }}"
 
 - name: ensure redis is ready
+  become: yes
   ansible.builtin.service:
     name: "{{ peering_manager_redis_service }}"
     state: started
