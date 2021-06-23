@@ -1,29 +1,36 @@
 ---
-- import_tasks: include_vars.yml
-- import_tasks: install_packages.yml
+- name: import variables tasks
+  ansible.builtin.import_tasks: include_vars.yml
+- name: import packages tasks
+  ansible.builtin.import_tasks: install_packages.yml
 
 - name: ensure python 3 is used
-  set_fact:
+  ansible.builtin.set_fact:
     ansible_python_interpreter: "{{ peering_manager_python_binary }}"
 
 - block:
   - name: create peering_manager group
-    group:
+    ansible.builtin.group:
       name: "{{ peering_manager_group }}"
 
   - name: create peering_manager user
-    user:
+    ansible.builtin.user:
       name: "{{ peering_manager_user }}"
       group: "{{ peering_manager_group }}"
       create_home: false
 
-- import_tasks: setup_database.yml
+- name: import database tasks
+  ansible.builtin.import_tasks: setup_database.yml
   when: peering_manager_database_host == 'localhost'
-- import_tasks: setup_peering_manager.yml
+- name: import peering manager tasks
+  ansible.builtin.import_tasks: setup_peering_manager.yml
 
-- include: setup_systemd.yml
+- name: import systemd tasks
+  ansible.builtin.import_tasks: setup_systemd.yml
   when: peering_manager_setup_systemd
-- include: setup_web_frontend.yml
+- name: import web frontend tasks
+  ansible.builtin.import_tasks: setup_web_frontend.yml
   when: peering_manager_setup_web_frontend
-- include: setup_cron.yml
+- name: import cron tasks
+  ansible.builtin.import_tasks: setup_cron.yml
   when: peering_manager_setup_cron_jobs

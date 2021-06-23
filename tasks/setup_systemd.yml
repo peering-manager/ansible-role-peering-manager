@@ -1,6 +1,6 @@
 ---
 - name: install gunicorn
-  pip:
+  ansible.builtin.pip:
     name: gunicorn
     extra_args: "--upgrade"
     virtualenv: "{{ peering_manager_virtualenv_path }}"
@@ -11,7 +11,7 @@
   until: pip_result is success
 
 - name: configure gunicorn
-  template:
+  ansible.builtin.template:
     src: gunicorn.py.j2
     dest: "{{ peering_manager_install_directory }}/gunicorn.py"
     owner: "{{ peering_manager_user }}"
@@ -21,7 +21,7 @@
     - restart peering-manager
 
 - name: configure systemd service
-  template:
+  ansible.builtin.template:
     src: peering-manager.service.j2
     dest: "{{ peering_manager_systemd_directory }}/peering-manager.service"
     owner: root
@@ -32,7 +32,7 @@
     - restart peering-manager
 
 - name: configure rqworker systemd service
-  template:
+  ansible.builtin.template:
     src: peering-manager-rqworker.service.j2
     dest: "{{ peering_manager_systemd_directory }}/peering-manager-rqworker.service"
     owner: root

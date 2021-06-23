@@ -1,11 +1,11 @@
 ---
 - name: check if there is an existing installation
-  stat:
+  ansible.builtin.stat:
     path: "{{ peering_manager_install_directory }}"
   register: peering_manager_installed
 
 - name: create the install directory
-  file:
+  ansible.builtin.file:
     path: "{{ peering_manager_install_directory }}"
     owner: "{{ peering_manager_user }}"
     group: "{{ peering_manager_group }}"
@@ -14,7 +14,7 @@
   when: not peering_manager_installed.stat.exists
 
 - name: download using git
-  git:
+  ansible.builtin.git:
     repo: "{{ peering_manager_git_url }}"
     version: "{{ peering_manager_version }}"
     dest: "{{ peering_manager_install_directory }}"
@@ -23,7 +23,7 @@
   register: peering_manager_downloaded
 
 - name: upgrade pip in virtualenv
-  pip:
+  ansible.builtin.pip:
     name: pip
     extra_args: "--upgrade"
     virtualenv: "{{ peering_manager_virtualenv_path }}"
@@ -34,7 +34,7 @@
   until: pip_result is success
 
 - name: install python requirements
-  pip:
+  ansible.builtin.pip:
     requirements: "{{ peering_manager_install_directory }}/requirements.txt"
     extra_args: "--upgrade"
     virtualenv: "{{ peering_manager_virtualenv_path }}"
@@ -49,7 +49,7 @@
 
 - block:
   - name: generate a secret key
-    shell: |
+    ansible.builtin.shell: |
       printf '{{ peering_manager_secretkey_script }}' | \
       {{ peering_manager_python_binary }} | \
       tr -d $'\n' > {{ peering_manager_install_directory }}/secret.key
@@ -59,16 +59,16 @@
     become_user: "{{ peering_manager_user }}"
 
   - name: load secret key
-    slurp:
+    ansible.builtin.slurp:
       src: "{{ peering_manager_install_directory }}/secret.key"
     register: __peering_manager_secret_key_file
 
   - name: set secret key in configuration
-    set_fact:
+    ansible.builtin.set_fact:
       peering_manager_config: "{{ peering_manager_config | combine({'SECRET_KEY': __peering_manager_secret_key_file['content'] | b64decode}) }}"
 
 - name: configure peering-manager
-  template:
+  ansible.builtin.template:
     src: configuration.py.j2
     dest: "{{ peering_manager_install_directory }}/peering_manager/configuration.py"
     owner: "{{ peering_manager_user }}"
@@ -79,7 +79,7 @@
 
 - block:
   - name: install django-auth-ldap
-    pip:
+    ansible.builtin.pip:
       name: django-auth-ldap
       extra_args: "--upgrade"
       virtualenv: "{{ peering_manager_virtualenv_path }}"
@@ -89,7 +89,7 @@
     register: pip_result
     until: pip_result is success
   - name: configure ldap auth
-    copy:
+    ansible.builtin.copy:
       content: "{{ peering_manager_ldap_config }}"
       dest: "{{ peering_manager_install_directory }}/peering_manager/ldap_config.py"
       owner: "{{ peering_manager_user }}"
@@ -101,7 +101,7 @@
 
 - block:
   - name: perform database migration
-    django_manage:
+    community.general.django_manage:
       app_path: "{{ peering_manager_install_directory }}"
       command: migrate
       virtualenv: "{{ peering_manager_virtualenv_path }}"
@@ -110,7 +110,7 @@
     notify:
       - restart peering-manager
   - name: remove stale content types
-    django_manage:
+    community.general.django_manage:
       app_path: "{{ peering_manager_install_directory }}"
       command: remove_stale_contenttypes --noinput
       virtualenv: "{{ peering_manager_virtualenv_path }}"
@@ -119,7 +119,7 @@
     notify:
       - restart peering-manager
   - name: collect static files
-    django_manage:
+    community.general.django_manage:
       app_path: "{{ peering_manager_install_directory }}"
       command: collectstatic
       clear: true
@@ -129,7 +129,7 @@
   when: peering_manager_downloaded.changed
 
 - name: create super user
-  shell: |
+  ansible.builtin.shell: |
     printf '{{ peering_manager_superuser_script }}' | \
     {{ peering_manager_virtualenv_path }}/bin/python {{ peering_manager_install_directory }}/manage.py shell
   args:
