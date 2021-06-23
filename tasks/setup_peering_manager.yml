@@ -61,6 +61,8 @@
   - name: load secret key
     ansible.builtin.slurp:
       src: "{{ peering_manager_install_directory }}/secret.key"
+    become: true
+    become_user: "{{ peering_manager_user }}"
     register: __peering_manager_secret_key_file
 
   - name: set secret key in configuration
@@ -74,6 +76,8 @@
     owner: "{{ peering_manager_user }}"
     group: "{{ peering_manager_group }}"
     mode: 0644
+  become: true
+  become_user: "{{ peering_manager_user }}"
   notify:
     - restart peering-manager
 
@@ -95,6 +99,8 @@
       owner: "{{ peering_manager_user }}"
       group: "{{ peering_manager_group }}"
       mode: 0644
+    become: true
+    become_user: "{{ peering_manager_user }}"
     notify:
       - restart peering-manager
   when: peering_manager_setup_ldap_auth
