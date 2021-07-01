@@ -13,19 +13,16 @@
   when: peering_manager_setup_systemd
 
 - name: restart peering-manager rqworker
-  ansible.builtin.service:
-=======
   become: yes
-  service:
+  ansible.builtin.service:
     name: peering-manager-rqworker
     state: restarted
     enabled: true
   when: peering_manager_setup_systemd
 
 - name: restart apache2
-  ansible.builtin.service:
   become: yes
-  service:
+  ansible.builtin.service:
     name: "{{ peering_manager_apache2_service }}"
     state: restarted
   when: peering_manager_setup_web_frontend
