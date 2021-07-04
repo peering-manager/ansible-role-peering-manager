@@ -3,7 +3,6 @@
   ansible.builtin.systemd:
     daemon_reload: true
 
-
 - name: restart peering-manager
   become: yes
   service:
@@ -29,6 +28,6 @@
 
 - name: restart psql
   become: yes
-  service:
+  ansible.builtin.service:
     name: postgresql
     state: restarted

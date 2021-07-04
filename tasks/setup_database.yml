@@ -10,6 +10,12 @@
 - name: Run handlers immediatly
   meta: flush_handlers
 
+- name: Wait for PostgreSQL database to become available
+  wait_for:
+    port: 5432
+    delay: 5
+    timeout: 60
+
 - name: create postgresql database
   community.postgresql.postgresql_db:
     name: "{{ peering_manager_database }}"
