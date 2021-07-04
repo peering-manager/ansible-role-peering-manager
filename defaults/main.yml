@@ -40,6 +40,7 @@ peering_manager_database: peering-manager
 peering_manager_database_user: peering-manager
 peering_manager_database_password: peering-manager
 peering_manager_database_host: localhost
+peering_manager_database_lc: en_US.UTF-8
 
 # Configuration
 peering_manager_config:
