@@ -11,36 +11,36 @@
   until: pip_result is success
 
 - name: configure gunicorn
-  become: yes
   ansible.builtin.template:
     src: gunicorn.py.j2
     dest: "{{ peering_manager_install_directory }}/gunicorn.py"
     owner: "{{ peering_manager_user }}"
     group: "{{ peering_manager_group }}"
     mode: 0644
+  become: true
   notify:
     - restart peering-manager
 
 - name: configure systemd service
-  become: yes
   ansible.builtin.template:
     src: peering-manager.service.j2
     dest: "{{ peering_manager_systemd_directory }}/peering-manager.service"
     owner: root
     group: root
     mode: 0644
+  become: true
   notify:
     - reload systemd
     - restart peering-manager
 
 - name: configure rqworker systemd service
-  become: yes
   ansible.builtin.template:
     src: peering-manager-rqworker.service.j2
     dest: "{{ peering_manager_systemd_directory }}/peering-manager-rqworker.service"
     owner: root
     group: root
     mode: 0644
+  become: true
   notify:
     - reload systemd
     - restart peering-manager

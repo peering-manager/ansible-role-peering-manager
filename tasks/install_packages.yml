@@ -1,9 +1,9 @@
 ---
 - name: install required packages
-  become: true
   ansible.builtin.package:
     name: "{{ __peering_manager_required_packages | flatten }}"
     state: present
+  become: true
   vars:
     __peering_manager_required_packages:
       - "{{ peering_manager_python_packages }}"

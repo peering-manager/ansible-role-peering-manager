@@ -10,16 +10,16 @@
 
 - block:
   - name: create peering_manager group
-    become: yes
     ansible.builtin.group:
       name: "{{ peering_manager_group }}"
+    become: true
 
   - name: create peering_manager user
-    become: yes
     ansible.builtin.user:
       name: "{{ peering_manager_user }}"
       group: "{{ peering_manager_group }}"
       create_home: false
+    become: true
 
 - name: import database tasks
   ansible.builtin.import_tasks: setup_database.yml
