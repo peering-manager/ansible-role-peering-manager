@@ -2,13 +2,15 @@
 - name: reload systemd
   ansible.builtin.systemd:
     daemon_reload: true
+  become: true
 
 - name: restart peering-manager
-  ansible.builtin.service:
+  service:
     name: peering-manager
     state: restarted
     enabled: true
   when: peering_manager_setup_systemd
+  become: true
 
 - name: restart peering-manager rqworker
   ansible.builtin.service:
@@ -16,9 +18,17 @@
     state: restarted
     enabled: true
   when: peering_manager_setup_systemd
+  become: true
 
 - name: restart apache2
   ansible.builtin.service:
     name: "{{ peering_manager_apache2_service }}"
     state: restarted
   when: peering_manager_setup_web_frontend
+  become: true
+
+- name: restart psql
+  ansible.builtin.service:
+    name: postgresql
+    state: restarted
+  become: true

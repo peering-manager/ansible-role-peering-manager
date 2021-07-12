@@ -6,6 +6,7 @@
     job: "cd {{ peering_manager_install_directory }} && venv/bin/python3 manage.py peeringdb_sync"
     user: "{{ peering_manager_user }}"
     cron_file: peering_manager
+  become: true
 - name: cron configure routers
   ansible.builtin.cron:
     name: Configure Routers
@@ -13,6 +14,7 @@
     job: "cd {{ peering_manager_install_directory }} && venv/bin/python3 manage.py configure_routers"
     user: "{{ peering_manager_user }}"
     cron_file: peering_manager
+  become: true
 - name: cron poll peering sessions
   ansible.builtin.cron:
     name: Poll peering sessions
@@ -20,6 +22,7 @@
     job: "cd {{ peering_manager_install_directory }} && venv/bin/python3 manage.py poll_peering_sessions --all"
     user: "{{ peering_manager_user }}"
     cron_file: peering_manager
+  become: true
 - name: cron grab prefixes
   ansible.builtin.cron:
     name: Grab prefixes
@@ -28,3 +31,4 @@
     job: "cd {{ peering_manager_install_directory }} && venv/bin/python3 manage.py grab_prefixes"
     user: "{{ peering_manager_user }}"
     cron_file: peering_manager
+  become: true
