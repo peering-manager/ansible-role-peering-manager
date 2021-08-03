@@ -19,6 +19,7 @@ __peering_manager_other_packages:
   - libjpeg-dev
   - graphviz
   - libssl-dev
+  - bgpq3
 
 __peering_manager_ldap_packages:
   - libldap2-dev

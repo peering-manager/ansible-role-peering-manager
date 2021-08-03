@@ -4,6 +4,7 @@
     name: postgresql
     state: started
     enabled: true
+  become: true
 
 - name: create postgresql database
   community.postgresql.postgresql_db:
@@ -30,3 +31,4 @@
   ansible.builtin.service:
     name: "{{ peering_manager_redis_service }}"
     state: started
+  become: true

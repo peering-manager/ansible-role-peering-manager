@@ -8,6 +8,7 @@
     - proxy
     - proxy_http
     - wsgi
+  become: true
   notify:
     - restart apache2
 
@@ -15,6 +16,7 @@
   ansible.builtin.file:
     path: "{{ peering_manager_apache2_sites_enabled_path }}/{{ peering_manager_apache2_default_vhost }}"
     state: absent
+  become: true
   notify:
     - restart apache2
 
@@ -25,11 +27,13 @@
     owner: "{{ peering_manager_apache2_user }}"
     group: "{{ peering_manager_apache2_group }}"
     mode: 0644
+  become: true
 
 - name: enable peering-manager vhost
   ansible.builtin.file:
     src: "{{ peering_manager_apache2_sites_available_path }}/peering-manager.conf"
     dest: "{{ peering_manager_apache2_sites_enabled_path }}/peering-manager.conf"
     state: link
+  become: true
   notify:
     - restart apache2

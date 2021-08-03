@@ -11,6 +11,7 @@
     group: "{{ peering_manager_group }}"
     state: directory
     mode: 0755
+  become: true
   when: not peering_manager_installed.stat.exists
 
 - name: download using git
