@@ -5,7 +5,7 @@
   become: true
 
 - name: restart peering-manager
-  service:
+  ansible.builtin.service:
     name: peering-manager
     state: restarted
     enabled: true
