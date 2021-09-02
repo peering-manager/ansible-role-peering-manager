@@ -28,7 +28,7 @@ __peering_manager_ldap_packages:
 __peering_manager_web_frontend_packages:
   - apache2
   - apache2-utils
-  - libapache2-mod-wsgi
+  - libapache2-mod-wsgi-py3
 
 peering_manager_python_binary: /usr/bin/python3.9
 peering_manager_pid: /var/tmp/peering-manager.pid
