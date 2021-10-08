@@ -4,10 +4,10 @@ __peering_manager_python_packages:
   - python3.9-dev
   - python3-venv
   - python3-pip
-  - python3-psycopg2
 __peering_manager_postgresql_packages:
   - postgresql
   - libpq-dev
+  - python3-psycopg2
 __peering_manager_redis_packages:
   - redis-server
 
