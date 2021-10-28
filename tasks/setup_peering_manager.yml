@@ -46,7 +46,33 @@
   until: pip_result is success
   notify:
     - restart peering-manager
+    - restart peering-manager rqworker
   when: peering_manager_downloaded.changed
+
+- name: generate python local requirements
+  template:
+    src: local_requirements.txt.j2
+    dest: "{{ peering_manager_install_directory }}/local_requirements.txt"
+    owner: "{{ peering_manager_user }}"
+    group: "{{ peering_manager_group }}"
+    mode: 0644
+  register: local_requirements_file
+  when: peering_manager_local_requirements|bool
+
+- name: install local requirements
+  pip:
+    requirements: "{{ peering_manager_install_directory }}/local_requirements.txt"
+    extra_args: "--upgrade"
+    virtualenv: "{{ peering_manager_virtualenv_path }}"
+    virtualenv_command: "{{ peering_manager_python_binary }} -m venv"
+  become: true
+  become_user: "{{ peering_manager_user }}"
+  register: pip_result
+  until: pip_result is success
+  notify:
+    - restart peering-manager
+    - restart peering-manager rqworker
+  when: local_requirements_file.changed
 
 - block:
   - name: generate a secret key

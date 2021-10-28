@@ -42,6 +42,11 @@ The username, password and email for the super user.
     peering_manager_superuser_password: admin
     peering_manager_superuser_email: admin@example.com
 
+Extra Python packages can be listed in order for this role to install them in
+the virtual environment:
+
+    peering_manager_local_requirements: []
+
 LDAP can be used as authentication mechanism. It must be enabled, and the whole
 LDAP configuration has to be provided in the following variables (see Peering
 Manager
