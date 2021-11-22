@@ -58,8 +58,13 @@ jobs:
           PY_COLORS: "1"
           ANSIBLE_FORCE_COLOR: "1"
           MOLECULE_DISTRO: ${{ matrix.distro }}
+
+  galaxy:
+    name: galaxy import
+    runs-on: ubuntu-latest
+    needs: [lint, molecule]
+    steps:
       - name: Trigger Galaxy import
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/head/main' }}
         run: >-
           ansible-galaxy role import
           --token ${{ secrets.GALAXY_API_KEY }}
