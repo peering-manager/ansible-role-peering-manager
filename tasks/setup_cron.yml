@@ -15,11 +15,11 @@
     user: "{{ peering_manager_user }}"
     cron_file: peering_manager
   become: true
-- name: cron poll peering sessions
+- name: cron poll bgp sessions
   ansible.builtin.cron:
-    name: Poll peering sessions
+    name: Poll BGP sessions
     minute: 0
-    job: "cd {{ peering_manager_install_directory }} && venv/bin/python3 manage.py poll_peering_sessions --all"
+    job: "cd {{ peering_manager_install_directory }} && venv/bin/python3 manage.py poll_bgp_sessions --all"
     user: "{{ peering_manager_user }}"
     cron_file: peering_manager
   become: true

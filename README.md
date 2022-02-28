@@ -63,7 +63,6 @@ will be generated automatically:
       ALLOWED_HOSTS:
         - localhost
         - 127.0.0.1
-      MY_ASN: 201281
       TIME_ZONE: "Europe/Paris"
       …
 
