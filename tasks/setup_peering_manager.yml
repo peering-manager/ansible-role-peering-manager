@@ -50,7 +50,7 @@
   when: peering_manager_downloaded.changed
 
 - name: generate python local requirements
-  template:
+  ansible.builtin.template:
     src: local_requirements.txt.j2
     dest: "{{ peering_manager_install_directory }}/local_requirements.txt"
     owner: "{{ peering_manager_user }}"
@@ -60,7 +60,7 @@
   when: peering_manager_local_requirements|bool
 
 - name: install local requirements
-  pip:
+  ansible.builtin.pip:
     requirements: "{{ peering_manager_install_directory }}/local_requirements.txt"
     extra_args: "--upgrade"
     virtualenv: "{{ peering_manager_virtualenv_path }}"
