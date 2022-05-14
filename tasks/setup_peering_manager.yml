@@ -74,7 +74,8 @@
     - restart peering-manager rqworker
   when: local_requirements_file.changed
 
-- block:
+- name: setup secret key
+  block:
   - name: generate a secret key
     ansible.builtin.shell: |
       printf '{{ peering_manager_secretkey_script }}' | \
@@ -108,7 +109,8 @@
   notify:
     - restart peering-manager
 
-- block:
+- name: setup ldap authentication
+  block:
   - name: install django-auth-ldap
     ansible.builtin.pip:
       name: django-auth-ldap
@@ -132,7 +134,8 @@
       - restart peering-manager
   when: peering_manager_setup_ldap_auth
 
-- block:
+- name: perform maintenance tasks
+  block:
   - name: perform database migration
     community.general.django_manage:
       app_path: "{{ peering_manager_install_directory }}"

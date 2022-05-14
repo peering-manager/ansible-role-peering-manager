@@ -8,7 +8,8 @@
   ansible.builtin.set_fact:
     ansible_python_interpreter: "{{ peering_manager_python_binary }}"
 
-- block:
+- name: setup user and group
+  block:
   - name: create peering_manager group
     ansible.builtin.group:
       name: "{{ peering_manager_group }}"
