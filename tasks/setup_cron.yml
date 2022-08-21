@@ -1,3 +1,13 @@
+---
+- name: cron housekeeping
+  ansible.builtin.cron:
+    name: Housekeeping
+    minute: 30
+    hour: 3
+    job: "cd {{ peering_manager_install_directory }} && venv/bin/python3 manage.py housekeeping"
+    user: "{{ peering_manager_user }}"
+    cron_file: peering_manager
+  become: true
 - name: cron peeringdb sync
   ansible.builtin.cron:
     name: Sync PeeringDB
