@@ -1,0 +1,6 @@
+skip_list:
+  - role-name
+  - no-handler
+  - risky-shell-pipe
+  - no-changed-when
+  - template-instead-of-copy

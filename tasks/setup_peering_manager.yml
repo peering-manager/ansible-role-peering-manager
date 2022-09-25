@@ -76,26 +76,26 @@
 
 - name: Setup secret key
   block:
-  - name: Generate a secret key
-    ansible.builtin.shell: |
-      printf '{{ peering_manager_secretkey_script }}' | \
-      {{ peering_manager_python_binary }} | \
-      tr -d $'\n' > {{ peering_manager_install_directory }}/secret.key
-    args:
-      creates: "{{ peering_manager_install_directory }}/secret.key"
-    become: true
-    become_user: "{{ peering_manager_user }}"
+    - name: Generate a secret key
+      ansible.builtin.shell: |
+        printf '{{ peering_manager_secretkey_script }}' | \
+        {{ peering_manager_python_binary }} | \
+        tr -d $'\n' > {{ peering_manager_install_directory }}/secret.key
+      args:
+        creates: "{{ peering_manager_install_directory }}/secret.key"
+      become: true
+      become_user: "{{ peering_manager_user }}"
 
-  - name: Load secret key
-    ansible.builtin.slurp:
-      src: "{{ peering_manager_install_directory }}/secret.key"
-    become: true
-    become_user: "{{ peering_manager_user }}"
-    register: __peering_manager_secret_key_file
+    - name: Load secret key
+      ansible.builtin.slurp:
+        src: "{{ peering_manager_install_directory }}/secret.key"
+      become: true
+      become_user: "{{ peering_manager_user }}"
+      register: __peering_manager_secret_key_file
 
-  - name: Set secret key in configuration
-    ansible.builtin.set_fact:
-      peering_manager_config: "{{ peering_manager_config | combine({'SECRET_KEY': __peering_manager_secret_key_file['content'] | b64decode}) }}"
+    - name: Set secret key in configuration
+      ansible.builtin.set_fact:
+        peering_manager_config: "{{ peering_manager_config | combine({'SECRET_KEY': __peering_manager_secret_key_file['content'] | b64decode}) }}"
 
 - name: Configure peering-manager
   ansible.builtin.template:
@@ -112,66 +112,66 @@
 - name: Setup LDAP authentication
   when: peering_manager_setup_ldap_auth
   block:
-  - name: Install django-auth-ldap
-    ansible.builtin.pip:
-      name: django-auth-ldap
-      extra_args: "--upgrade"
-      virtualenv: "{{ peering_manager_virtualenv_path }}"
-      virtualenv_command: "{{ peering_manager_python_binary }} -m venv"
-    become: true
-    become_user: "{{ peering_manager_user }}"
-    register: pip_result
-    until: pip_result is success
-  - name: Configure LDAP auth
-    ansible.builtin.copy:
-      content: "{{ peering_manager_ldap_config }}"
-      dest: "{{ peering_manager_install_directory }}/peering_manager/ldap_config.py"
-      owner: "{{ peering_manager_user }}"
-      group: "{{ peering_manager_group }}"
-      mode: 0644
-    become: true
-    become_user: "{{ peering_manager_user }}"
-    notify:
-      - restart peering-manager
+    - name: Install django-auth-ldap
+      ansible.builtin.pip:
+        name: django-auth-ldap
+        extra_args: "--upgrade"
+        virtualenv: "{{ peering_manager_virtualenv_path }}"
+        virtualenv_command: "{{ peering_manager_python_binary }} -m venv"
+      become: true
+      become_user: "{{ peering_manager_user }}"
+      register: pip_result
+      until: pip_result is success
+    - name: Configure LDAP auth
+      ansible.builtin.copy:
+        content: "{{ peering_manager_ldap_config }}"
+        dest: "{{ peering_manager_install_directory }}/peering_manager/ldap_config.py"
+        owner: "{{ peering_manager_user }}"
+        group: "{{ peering_manager_group }}"
+        mode: 0644
+      become: true
+      become_user: "{{ peering_manager_user }}"
+      notify:
+        - restart peering-manager
 
 - name: Perform maintenance tasks
   when: peering_manager_downloaded.changed
   block:
-  - name: Perform database migration
-    community.general.django_manage:
-      app_path: "{{ peering_manager_install_directory }}"
-      command: migrate
-      virtualenv: "{{ peering_manager_virtualenv_path }}"
-    become: true
-    become_user: "{{ peering_manager_user }}"
-    notify:
-      - restart peering-manager
-  - name: Remove stale content types
-    community.general.django_manage:
-      app_path: "{{ peering_manager_install_directory }}"
-      command: remove_stale_contenttypes --noinput
-      virtualenv: "{{ peering_manager_virtualenv_path }}"
-    become: true
-    become_user: "{{ peering_manager_user }}"
-    notify:
-      - restart peering-manager
-  - name: Remove expired user sessions
-    community.general.django_manage:
-      app_path: "{{ peering_manager_install_directory }}"
-      command: clearsessions
-      virtualenv: "{{ peering_manager_virtualenv_path }}"
-    become: true
-    become_user: "{{ peering_manager_user }}"
-    notify:
-      - restart peering-manager
-  - name: Collect static files
-    community.general.django_manage:
-      app_path: "{{ peering_manager_install_directory }}"
-      command: collectstatic
-      clear: true
-      virtualenv: "{{ peering_manager_virtualenv_path }}"
-    become: true
-    become_user: "{{ peering_manager_user }}"
+    - name: Perform database migration
+      community.general.django_manage:
+        app_path: "{{ peering_manager_install_directory }}"
+        command: migrate
+        virtualenv: "{{ peering_manager_virtualenv_path }}"
+      become: true
+      become_user: "{{ peering_manager_user }}"
+      notify:
+        - restart peering-manager
+    - name: Remove stale content types
+      community.general.django_manage:
+        app_path: "{{ peering_manager_install_directory }}"
+        command: remove_stale_contenttypes --noinput
+        virtualenv: "{{ peering_manager_virtualenv_path }}"
+      become: true
+      become_user: "{{ peering_manager_user }}"
+      notify:
+        - restart peering-manager
+    - name: Remove expired user sessions
+      community.general.django_manage:
+        app_path: "{{ peering_manager_install_directory }}"
+        command: clearsessions
+        virtualenv: "{{ peering_manager_virtualenv_path }}"
+      become: true
+      become_user: "{{ peering_manager_user }}"
+      notify:
+        - restart peering-manager
+    - name: Collect static files
+      community.general.django_manage:
+        app_path: "{{ peering_manager_install_directory }}"
+        command: collectstatic
+        clear: true
+        virtualenv: "{{ peering_manager_virtualenv_path }}"
+      become: true
+      become_user: "{{ peering_manager_user }}"
 
 - name: Create super user
   ansible.builtin.shell: |
