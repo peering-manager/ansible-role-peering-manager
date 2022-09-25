@@ -1,5 +1,5 @@
 ---
-- name: cron housekeeping
+- name: Cron housekeeping
   ansible.builtin.cron:
     name: Housekeeping
     minute: 30
@@ -8,7 +8,7 @@
     user: "{{ peering_manager_user }}"
     cron_file: peering_manager
   become: true
-- name: cron peeringdb sync
+- name: Cron PeeringDB sync
   ansible.builtin.cron:
     name: Sync PeeringDB
     minute: 30
@@ -17,7 +17,7 @@
     user: "{{ peering_manager_user }}"
     cron_file: peering_manager
   become: true
-- name: cron configure routers
+- name: Cron configure routers
   ansible.builtin.cron:
     name: Configure Routers
     minute: 55
@@ -25,7 +25,7 @@
     user: "{{ peering_manager_user }}"
     cron_file: peering_manager
   become: true
-- name: cron poll bgp sessions
+- name: Cron poll BGP sessions
   ansible.builtin.cron:
     name: Poll BGP sessions
     minute: 0
@@ -33,7 +33,7 @@
     user: "{{ peering_manager_user }}"
     cron_file: peering_manager
   become: true
-- name: cron grab prefixes
+- name: Cron grab prefixes
   ansible.builtin.cron:
     name: Grab prefixes
     minute: 30

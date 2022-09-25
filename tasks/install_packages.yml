@@ -1,5 +1,5 @@
 ---
-- name: install required packages
+- name: Install required packages
   ansible.builtin.package:
     name: "{{ __peering_manager_required_packages | flatten }}"
     state: present
