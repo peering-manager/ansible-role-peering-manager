@@ -45,8 +45,8 @@
   register: pip_result
   until: pip_result is success
   notify:
-    - restart peering-manager
-    - restart peering-manager rqworker
+    - Restart peering-manager
+    - Restart peering-manager rqworker
   when: peering_manager_downloaded.changed
 
 - name: Generate Python local requirements
@@ -70,8 +70,8 @@
   register: pip_result
   until: pip_result is success
   notify:
-    - restart peering-manager
-    - restart peering-manager rqworker
+    - Restart peering-manager
+    - Restart peering-manager rqworker
   when: local_requirements_file.changed
 
 - name: Setup secret key
@@ -107,7 +107,7 @@
   become: true
   become_user: "{{ peering_manager_user }}"
   notify:
-    - restart peering-manager
+    - Restart peering-manager
 
 - name: Setup LDAP authentication
   when: peering_manager_setup_ldap_auth
@@ -132,7 +132,7 @@
       become: true
       become_user: "{{ peering_manager_user }}"
       notify:
-        - restart peering-manager
+        - Restart peering-manager
 
 - name: Perform maintenance tasks
   when: peering_manager_downloaded.changed
@@ -145,7 +145,7 @@
       become: true
       become_user: "{{ peering_manager_user }}"
       notify:
-        - restart peering-manager
+        - Restart peering-manager
     - name: Remove stale content types
       community.general.django_manage:
         app_path: "{{ peering_manager_install_directory }}"
@@ -154,7 +154,7 @@
       become: true
       become_user: "{{ peering_manager_user }}"
       notify:
-        - restart peering-manager
+        - Restart peering-manager
     - name: Remove expired user sessions
       community.general.django_manage:
         app_path: "{{ peering_manager_install_directory }}"
@@ -163,7 +163,7 @@
       become: true
       become_user: "{{ peering_manager_user }}"
       notify:
-        - restart peering-manager
+        - Restart peering-manager
     - name: Collect static files
       community.general.django_manage:
         app_path: "{{ peering_manager_install_directory }}"

@@ -19,7 +19,7 @@
     mode: 0644
   become: true
   notify:
-    - restart peering-manager
+    - Restart peering-manager
 
 - name: Configure systemd service
   ansible.builtin.template:
@@ -30,8 +30,8 @@
     mode: 0644
   become: true
   notify:
-    - reload systemd
-    - restart peering-manager
+    - Reload systemd
+    - Restart peering-manager
 
 - name: Configure rqworker systemd service
   ansible.builtin.template:
@@ -42,6 +42,6 @@
     mode: 0644
   become: true
   notify:
-    - reload systemd
-    - restart peering-manager
-    - restart peering-manager rqworker
+    - Reload systemd
+    - Restart peering-manager
+    - Restart peering-manager rqworker

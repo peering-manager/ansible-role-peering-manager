@@ -10,7 +10,7 @@
     - wsgi
   become: true
   notify:
-    - restart apache2
+    - Restart Apache2
 
 - name: Remove default vhost
   ansible.builtin.file:
@@ -18,7 +18,7 @@
     state: absent
   become: true
   notify:
-    - restart apache2
+    - Restart Apache2
 
 - name: Configure peering-manager vhost
   ansible.builtin.template:
@@ -36,4 +36,4 @@
     state: link
   become: true
   notify:
-    - restart apache2
+    - Restart Apache2
