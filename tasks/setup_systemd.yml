@@ -1,5 +1,5 @@
 ---
-- name: install gunicorn
+- name: Install gunicorn
   ansible.builtin.pip:
     name: gunicorn
     extra_args: "--upgrade"
@@ -10,7 +10,7 @@
   register: pip_result
   until: pip_result is success
 
-- name: configure gunicorn
+- name: Configure gunicorn
   ansible.builtin.template:
     src: gunicorn.py.j2
     dest: "{{ peering_manager_install_directory }}/gunicorn.py"
@@ -21,7 +21,7 @@
   notify:
     - restart peering-manager
 
-- name: configure systemd service
+- name: Configure systemd service
   ansible.builtin.template:
     src: peering-manager.service.j2
     dest: "{{ peering_manager_systemd_directory }}/peering-manager.service"
@@ -33,7 +33,7 @@
     - reload systemd
     - restart peering-manager
 
-- name: configure rqworker systemd service
+- name: Configure rqworker systemd service
   ansible.builtin.template:
     src: peering-manager-rqworker.service.j2
     dest: "{{ peering_manager_systemd_directory }}/peering-manager-rqworker.service"
