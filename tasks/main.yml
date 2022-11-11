@@ -25,7 +25,7 @@
 - name: Import database tasks
   ansible.builtin.import_tasks: setup_database.yml
   when: peering_manager_database_host == 'localhost'
-- name: import peering manager tasks
+- name: Import peering manager tasks
   ansible.builtin.import_tasks: setup_peering_manager.yml
 
 - name: Import systemd tasks
