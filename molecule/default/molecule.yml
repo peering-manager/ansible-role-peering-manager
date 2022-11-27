@@ -4,8 +4,8 @@ dependency:
 driver:
   name: docker
 platforms:
-  - name: instance-${MOLECULE_DISTRO:-debian10}
-    image: ghcr.io/gmazoyer/ansible-docker-${MOLECULE_DISTRO:-debian10}
+  - name: instance
+    image: ghcr.io/gmazoyer/ansible-docker-${MOLECULE_DISTRO:-debian11}
     command: ${MOLECULE_DOCKER_COMMAND:-""}
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
@@ -16,3 +16,8 @@ provisioner:
   lint: ansible-lint
   playbooks:
     converge: ${MOLECULE_PLAYBOOK:-playbook.yml}
+scenario:
+  name: default
+verifier:
+  name: testinfra
+  directory: molecule/default/tests/
