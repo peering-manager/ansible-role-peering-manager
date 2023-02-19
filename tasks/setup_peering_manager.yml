@@ -10,7 +10,7 @@
     owner: "{{ peering_manager_user }}"
     group: "{{ peering_manager_group }}"
     state: directory
-    mode: 0755
+    mode: "755"
   become: true
   when: not peering_manager_installed.stat.exists
 
@@ -55,7 +55,7 @@
     dest: "{{ peering_manager_install_directory }}/local_requirements.txt"
     owner: "{{ peering_manager_user }}"
     group: "{{ peering_manager_group }}"
-    mode: 0644
+    mode: "644"
   register: local_requirements_file
   when: peering_manager_local_requirements | bool
 
@@ -103,7 +103,7 @@
     dest: "{{ peering_manager_install_directory }}/peering_manager/configuration.py"
     owner: "{{ peering_manager_user }}"
     group: "{{ peering_manager_group }}"
-    mode: 0644
+    mode: "644"
   become: true
   become_user: "{{ peering_manager_user }}"
   notify:
@@ -128,7 +128,7 @@
         dest: "{{ peering_manager_install_directory }}/peering_manager/ldap_config.py"
         owner: "{{ peering_manager_user }}"
         group: "{{ peering_manager_group }}"
-        mode: 0644
+        mode: "644"
       become: true
       become_user: "{{ peering_manager_user }}"
       notify:

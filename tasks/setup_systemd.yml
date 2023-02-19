@@ -16,7 +16,7 @@
     dest: "{{ peering_manager_install_directory }}/gunicorn.py"
     owner: "{{ peering_manager_user }}"
     group: "{{ peering_manager_group }}"
-    mode: 0644
+    mode: "644"
   become: true
   notify:
     - Restart peering-manager
@@ -27,7 +27,7 @@
     dest: "{{ peering_manager_systemd_directory }}/peering-manager.service"
     owner: root
     group: root
-    mode: 0644
+    mode: "644"
   become: true
   notify:
     - Reload systemd
@@ -39,7 +39,7 @@
     dest: "{{ peering_manager_systemd_directory }}/peering-manager-rqworker.service"
     owner: root
     group: root
-    mode: 0644
+    mode: "644"
   become: true
   notify:
     - Reload systemd
