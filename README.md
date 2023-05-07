@@ -29,8 +29,11 @@ Setup for the PostgreSQL database:
 
 Where to get Peering Manager and which version:
 
-    peering_manager_version: 1.7.4
+    peering_manager_version: latest
     peering_manager_git_url: https://github.com/peering-manager/peering-manager.git
+
+By default, it will always get the latest stable version. A specific version
+can be enforced by using, `v1.7.0` for example.
 
 Where to install Peering Manager:
 

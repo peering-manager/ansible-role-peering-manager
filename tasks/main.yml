@@ -1,6 +1,11 @@
 ---
 - name: Import variables tasks
   ansible.builtin.import_tasks: include_vars.yml
+- name: Configure latest version
+  ansible.builtin.include_tasks: version.yml
+  when: >
+    peering_manager_version is match("latest")
+    or peering_manager_version is not defined
 - name: Import packages tasks
   ansible.builtin.import_tasks: install_packages.yml
 

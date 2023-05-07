@@ -1,0 +1,15 @@
+---
+- name: Determine latest GitHub release (local)
+  delegate_to: localhost
+  become: false
+  ansible.builtin.uri:
+    url: "https://api.github.com/repos/peering-manager/peering-manager/releases/latest"
+    body_format: json
+  register: _github_release
+  run_once: true
+  until: _github_release.status == 200
+  retries: 5
+
+- name: Set peering_manager_version
+  ansible.builtin.set_fact:
+    peering_manager_version: "{{ _github_release.json.tag_name }}"

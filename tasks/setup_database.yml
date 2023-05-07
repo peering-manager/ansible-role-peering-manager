@@ -22,8 +22,16 @@
     password: "{{ peering_manager_database_password }}"
     encrypted: true
     db: "{{ peering_manager_database }}"
-    priv: ALL
   no_log: true
+  become: true
+  become_user: "{{ peering_manager_postgresql_user }}"
+
+- name: Grant ALL privileges to PostgreSQL user
+  community.postgresql.postgresql_privs:
+    db: "{{ peering_manager_database }}"
+    privs: ALL
+    role: "{{ peering_manager_database_user }}"
+    type: database
   become: true
   become_user: "{{ peering_manager_postgresql_user }}"
 
