@@ -58,17 +58,17 @@ peering_manager_config:
 peering_manager_tasks:
   peeringdb-sync:
     enabled: true
-    command: "{{ netbox_virtualenv_path }}/bin/python {{ netbox_install_directory }}/netbox/manage.py peeringdb_sync"
+    command: "{{ peering_manager_virtualenv_path }}/bin/python {{ peering_manager_install_directory }}/manage.py peeringdb_sync"
     on_calendar: "*-*-* 2:30:00"
   prefix-fetch:
     enabled: true
-    command: "{{ netbox_virtualenv_path }}/bin/python {{ netbox_install_directory }}/netbox/manage.py grab_prefixes"
+    command: "{{ peering_manager_virtualenv_path }}/bin/python {{ peering_manager_install_directory }}/manage.py grab_prefixes"
     on_calendar: "*-*-* 4:30:00"
   poll-bgp-sessions:
     enabled: true
-    command: "{{ netbox_virtualenv_path }}/bin/python {{ netbox_install_directory }}/netbox/manage.py poll_bgp_sessions --all"
+    command: "{{ peering_manager_virtualenv_path }}/bin/python {{ peering_manager_install_directory }}/manage.py poll_bgp_sessions --all"
     on_unit_active_sec: "30m"
   configure-routers:
     enabled: true
-    command: "{{ netbox_virtualenv_path }}/bin/python {{ netbox_install_directory }}/netbox/manage.py configure_routers"
+    command: "{{ peering_manager_virtualenv_path }}/bin/python {{ peering_manager_install_directory }}/manage.py configure_routers"
     time: "*-*-* *:55:00"

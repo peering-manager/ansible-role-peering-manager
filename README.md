@@ -69,6 +69,27 @@ will be generated automatically:
       TIME_ZONE: "Europe/Paris"
       …
 
+Scheduled tasks are run using systemd timers You can use `on_unit_active_sec`
+or `on_calendar` to specify times for each tasks:
+
+    peering_manager_tasks:
+      peeringdb-sync:
+        enabled: true
+        command: "{{ peering_manager_virtualenv_path }}/bin/python {{ peering_manager_install_directory }}/manage.py peeringdb_sync"
+        on_calendar: "*-*-* 2:30:00"
+      prefix-fetch:
+        enabled: true
+        command: "{{ peering_manager_virtualenv_path }}/bin/python {{ peering_manager_install_directory }}/manage.py grab_prefixes"
+        on_calendar: "*-*-* 4:30:00"
+      poll-bgp-sessions:
+        enabled: true
+        command: "{{ peering_manager_virtualenv_path }}/bin/python {{ peering_manager_install_directory }}/manage.py poll_bgp_sessions --all"
+        on_unit_active_sec: "30m"
+      configure-routers:
+        enabled: true
+        command: "{{ peering_manager_virtualenv_path }}/bin/python {{ peering_manager_install_directory }}/manage.py configure_routers"
+        time: "*-*-* *:55:00"
+
 Configuration for the backend web server and systemd:
 
     peering_manager_setup_systemd: false
