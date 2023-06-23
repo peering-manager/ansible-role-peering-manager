@@ -1,0 +1,7 @@
+[Unit]
+Description={{ item.key }} Service
+
+[Service]
+Type=oneshot
+ExecStart={{ item.value.command }}
+User={{ peering_manager_user }}

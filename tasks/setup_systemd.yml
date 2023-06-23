@@ -45,3 +45,58 @@
     - Reload systemd
     - Restart peering-manager
     - Restart peering-manager rqworker
+
+- name: Configure scheduled tasks
+  when: peering_manager_tasks is defined
+  block:
+    - name: Fail if timer command is not set
+      ansible.builtin.fail:
+        msg: Variable command is not defined
+      when: item.value.enabled | bool and item.value.command is undefined
+      with_dict: "{{ peering_manager_tasks }}"
+
+    - name: Setup timer service file
+      ansible.builtin.template:
+        src: systemd_timer_service.j2
+        dest: "{{ peering_manager_systemd_directory }}/{{ item.key }}.service"
+        owner: root
+        group: root
+        mode: "644"
+      with_dict: "{{ peering_manager_tasks }}"
+      notify:
+        - Reload systemd
+
+    - name: Setup timer file
+      ansible.builtin.template:
+        src: systemd_timer.j2
+        dest: "{{ peering_manager_systemd_directory }}/{{ item.key }}.timer"
+        owner: root
+        group: root
+        mode: "644"
+      with_dict: "{{ peering_manager_tasks }}"
+      notify:
+        - Reload systemd
+
+    - name: Enable timer
+      ansible.builtin.systemd:
+        name: "{{ item.key }}.timer"
+        state: started
+        enabled: true
+        masked: false
+        scope: system
+      when: item.value.enabled | bool
+      with_dict: "{{ peering_manager_tasks }}"
+      notify:
+        - Reload systemd
+
+    - name: Disable timer
+      ansible.builtin.systemd:
+        name: "{{ item.key }}.timer"
+        state: stopped
+        enabled: false
+        masked: false
+        scope: system
+      when: not item.value.enabled | bool
+      with_dict: "{{ peering_manager_tasks }}"
+      notify:
+        - Reload systemd
