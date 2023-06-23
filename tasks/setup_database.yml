@@ -9,10 +9,6 @@
 - name: Create PostgreSQL database
   community.postgresql.postgresql_db:
     name: "{{ peering_manager_database }}"
-    encoding: UTF8
-    lc_collate: "{{ peering_manager_database_lc }}"
-    lc_ctype: "{{ peering_manager_database_lc }}"
-    template: template0
   become: true
   become_user: "{{ peering_manager_postgresql_user }}"
 
