@@ -80,4 +80,4 @@ jobs:
         run: >-
           ansible-galaxy role import
           --token ${{ secrets.GALAXY_API_KEY }}
-          peering-manager ansible-role-peering-manager
+          gmazoyer ansible-role-peering-manager
