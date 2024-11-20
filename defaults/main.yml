@@ -72,3 +72,7 @@ peering_manager_tasks:
     enabled: true
     command: "{{ peering_manager_virtualenv_path }}/bin/python {{ peering_manager_install_directory }}/manage.py configure_routers"
     on_calendar: "*-*-* *:55:00"
+  data-sources:
+    enabled: true
+    command: "{{ peering_manager_virtualenv_path }}/bin/python {{ peering_manager_install_directory }}/manage.py datasource --all"
+    on_calendar: "30m"
