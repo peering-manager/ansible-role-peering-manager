@@ -8,12 +8,11 @@ galaxy_info:
   platforms:
     - name: Debian
       versions:
-        - bullseye
         - bookworm
     - name: Ubuntu
       versions:
-        - focal
         - jammy
+        - noble
   galaxy_tags:
     - networking
     - routing
