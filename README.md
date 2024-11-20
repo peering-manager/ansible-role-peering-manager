@@ -89,6 +89,11 @@ or `on_calendar` to specify times for each tasks:
         enabled: true
         command: "{{ peering_manager_virtualenv_path }}/bin/python {{ peering_manager_install_directory }}/manage.py configure_routers"
         on_calendar: "*-*-* *:55:00"
+      data-sources:
+        enabled: true
+        command: "{{ peering_manager_virtualenv_path }}/bin/python {{ peering_manager_install_directory }}/manage.py datasource --all"
+        on_unit_active_sec: "30m"
+
 
 Configuration for the backend web server and systemd:
 

@@ -75,4 +75,4 @@ peering_manager_tasks:
   data-sources:
     enabled: true
     command: "{{ peering_manager_virtualenv_path }}/bin/python {{ peering_manager_install_directory }}/manage.py datasource --all"
-    on_calendar: "30m"
+    on_unit_active_sec: "30m"
