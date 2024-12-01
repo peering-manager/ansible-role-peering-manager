@@ -2,7 +2,7 @@
 peering_manager_secretkey_script: |
   from random import SystemRandom
   charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$^&*(-_=+)"
-  print("".join(SystemRandom().sample(charset, 50)))
+  print("{{ peering_manager_secret_key | default('') }}" or "".join(SystemRandom().sample(charset, 50)))
 peering_manager_superuser_script: |
   from django.contrib.auth.models import User
   from base64 import b64decode

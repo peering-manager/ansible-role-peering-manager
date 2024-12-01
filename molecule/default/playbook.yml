@@ -3,6 +3,7 @@
   hosts: all
 
   vars:
+    peering_manager_secret_key: 'ef7npku*djrj_r4jt4cojo8^j@2($$@05e(eq_mn!ywx*jg0vy'
     peering_manager_setup_ldap_auth: true
     peering_manager_setup_systemd: true
     peering_manager_setup_web_frontend: true
