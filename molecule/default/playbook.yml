@@ -9,8 +9,8 @@
     peering_manager_setup_web_frontend: true
 
   pre_tasks:
-    - name: update apt cache
-      apt:
+    - name: Update apt cache
+      ansible.builtin.apt:
         update_cache: true
         cache_valid_time: 600
       when: ansible_os_family == 'Debian'
