@@ -17,21 +17,21 @@
     name: "{{ peering_manager_database_user }}"
     password: "{{ peering_manager_database_password }}"
     encrypted: true
-    db: "{{ peering_manager_database }}"
+    login_db: "{{ peering_manager_database }}"
   no_log: true
   become: true
   become_user: "{{ peering_manager_postgresql_user }}"
 
 - name: Set PostgreSQL user as owner of database
   community.postgresql.postgresql_owner:
-    db: "{{ peering_manager_database }}"
+    login_db: "{{ peering_manager_database }}"
     new_owner: "{{ peering_manager_database_user }}"
   become: true
   become_user: "{{ peering_manager_postgresql_user }}"
 
 - name: Grant ALL privileges to PostgreSQL user
   community.postgresql.postgresql_privs:
-    db: "{{ peering_manager_database }}"
+    login_db: "{{ peering_manager_database }}"
     privs: ALL
     type: schema
     objs: public
