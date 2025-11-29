@@ -3,7 +3,7 @@
 # Use the latest release
 # Alternatively, set a specific version
 # See available releases: https://github.com/peering-manager/peering-manager/releases/
-# peering_manager_version: 'v1.7.4'
+# peering_manager_version: 'v1.10.0'
 peering_manager_version: latest
 peering_manager_git_url: https://github.com/peering-manager/peering-manager.git
 
@@ -62,7 +62,7 @@ peering_manager_tasks:
     on_calendar: "*-*-* 2:30:00"
   prefix-fetch:
     enabled: true
-    command: "{{ peering_manager_virtualenv_path }}/bin/python {{ peering_manager_install_directory }}/manage.py grab_prefixes"
+    command: "{{ peering_manager_virtualenv_path }}/bin/python {{ peering_manager_install_directory }}/manage.py get_irr_data"
     on_calendar: "*-*-* 4:30:00"
   poll-bgp-sessions:
     enabled: true

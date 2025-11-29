@@ -33,7 +33,7 @@ Where to get Peering Manager and which version:
     peering_manager_git_url: https://github.com/peering-manager/peering-manager.git
 
 By default, it will always get the latest stable version. A specific version
-can be enforced by using, `v1.7.0` for example.
+can be enforced by using, `v1.10.0` for example.
 
 Where to install Peering Manager:
 
@@ -79,7 +79,7 @@ or `on_calendar` to specify times for each tasks:
         on_calendar: "*-*-* 2:30:00"
       prefix-fetch:
         enabled: true
-        command: "{{ peering_manager_virtualenv_path }}/bin/python {{ peering_manager_install_directory }}/manage.py grab_prefixes"
+        command: "{{ peering_manager_virtualenv_path }}/bin/python {{ peering_manager_install_directory }}/manage.py get_irr_data"
         on_calendar: "*-*-* 4:30:00"
       poll-bgp-sessions:
         enabled: true
