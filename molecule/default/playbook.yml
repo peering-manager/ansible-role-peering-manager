@@ -16,4 +16,4 @@
       when: ansible_os_family == 'Debian'
 
   roles:
-    - role: gmazoyer.peering_manager
+    - role: peering_manager.peering_manager.peering_manager

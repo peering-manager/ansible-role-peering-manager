@@ -1,0 +1,26 @@
+---
+namespace: peering_manager
+name: peering_manager
+version: 1.10.0
+readme: README.md
+authors:
+  - Guillaume Mazoyer <guillaume@mazoyer.eu>
+description: Install and update Peering Manager
+license:
+  - GPL-3.0-or-later
+tags:
+  - networking
+  - routing
+  - peering
+  - bgp
+  - django
+repository: https://github.com/peering-manager/ansible-role-peering-manager
+documentation: https://github.com/peering-manager/ansible-role-peering-manager
+homepage: https://peering-manager.net/
+issues: https://github.com/peering-manager/ansible-role-peering-manager/issues
+build_ignore:
+  - .github
+  - .vscode
+  - .cache
+  - .venv
+  - molecule
