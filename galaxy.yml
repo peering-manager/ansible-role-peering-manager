@@ -18,6 +18,9 @@ repository: https://github.com/peering-manager/ansible-role-peering-manager
 documentation: https://github.com/peering-manager/ansible-role-peering-manager
 homepage: https://peering-manager.net/
 issues: https://github.com/peering-manager/ansible-role-peering-manager/issues
+dependencies:
+  community.general: ">=5.0.0"
+  community.postgresql: ">=2.0.0"
 build_ignore:
   - .github
   - .vscode
