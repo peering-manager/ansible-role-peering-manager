@@ -1,5 +1,5 @@
 ---
-namespace: peering_manager
+namespace: gmazoyer
 name: peering_manager
 version: 1.10.0
 readme: README.md

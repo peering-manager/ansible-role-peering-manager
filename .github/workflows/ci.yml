@@ -10,7 +10,7 @@ on:
 
 defaults:
   run:
-    working-directory: "ansible_collections/peering_manager/peering_manager"
+    working-directory: "ansible_collections/gmazoyer/peering_manager"
 
 jobs:
   lint:
@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          path: "ansible_collections/peering_manager/peering_manager"
+          path: "ansible_collections/gmazoyer/peering_manager"
       - name: Setup Python
         uses: actions/setup-python@v6
         with:
@@ -44,7 +44,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          path: "ansible_collections/peering_manager/peering_manager"
+          path: "ansible_collections/gmazoyer/peering_manager"
       - name: Setup Python
         uses: actions/setup-python@v6
         with:
@@ -67,7 +67,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          path: "ansible_collections/peering_manager/peering_manager"
+          path: "ansible_collections/gmazoyer/peering_manager"
       - name: Setup Python
         uses: actions/setup-python@v6
         with:
@@ -82,4 +82,4 @@ jobs:
         run: >-
           ansible-galaxy collection publish
           --token ${{ secrets.GALAXY_API_KEY }}
-          peering_manager-peering_manager-*.tar.gz
+          gmazoyer-peering_manager-*.tar.gz
